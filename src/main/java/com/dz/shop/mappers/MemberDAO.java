@@ -10,4 +10,5 @@ import org.springframework.stereotype.Component;
 public interface MemberDAO {
 	List<MemberVO> memberList(BoardParam boardParam);
 	long listSize(String search);
+	MemberVO findByMember(MemberVO memberVO);
 }

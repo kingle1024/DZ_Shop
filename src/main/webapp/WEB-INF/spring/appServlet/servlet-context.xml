@@ -26,6 +26,15 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
+	<beans:bean id="LoginInterceptor" class="com.dz.shop.Interceptor.LoginInterceptor" />
+	<interceptors>
+		<interceptor>
+			<mapping path="/admin/*" />
+			<exclude-mapping path="/*" />
+			<beans:ref bean="LoginInterceptor" />
+		</interceptor>
+	</interceptors>
+
 <!--	<beans:bean id="tilesConfigurer"-->
 <!--		  class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">-->
 <!--		<beans:property name="definitions">-->

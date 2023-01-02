@@ -2,6 +2,7 @@ package com.dz.shop.service;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.entity.MemberVO;
 import com.dz.shop.mappers.MemberDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class MemberServiceImpl implements MemberService{
                 .build();
         param.init();
 
-        long totalCount = 0;
-        List<?> list = null;
+        long totalCount;
+        List<?> list;
         list = memberDAO.memberList(param);
         totalCount = memberDAO.listSize(search);
 
@@ -34,4 +35,12 @@ public class MemberServiceImpl implements MemberService{
                 .pageIndex(param.getL_pageIndex())
                 .build();
     }
+
+    @Override
+    public MemberVO login(MemberVO memberVO) {
+        MemberVO member = memberDAO.findByMember(memberVO);
+        return member;
+    }
+
+
 }
