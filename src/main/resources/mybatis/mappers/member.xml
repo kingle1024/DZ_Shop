@@ -16,4 +16,10 @@
 -- 		where name like concat('%', #{name}, '%')
 	</select>
 
+	<select id="findByMember" resultType="com.dz.shop.entity.MemberVO">
+		select
+			*
+		from member
+		where userId = #{userId} and pwd = #{pwd}
+	</select>
 </mapper>
