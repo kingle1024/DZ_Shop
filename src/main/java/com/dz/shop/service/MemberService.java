@@ -6,4 +6,8 @@ import com.dz.shop.entity.MemberVO;
 public interface MemberService {
 	PageUtil pageUtil(String search, String pageIndex, String type);
 	MemberVO login(MemberVO memberVO);
+
+	MemberVO dupUidaCheck(String id);
+
+	long insert(MemberVO member);
 }

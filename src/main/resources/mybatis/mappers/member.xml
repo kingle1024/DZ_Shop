@@ -22,4 +22,23 @@
 		from member
 		where userId = #{userId} and pwd = #{pwd}
 	</select>
+
+	<select id="findById" parameterType="String" resultType="com.dz.shop.entity.MemberVO">
+		select
+			*
+		from member
+		where userId = #{userId}
+	</select>
+
+	<insert id="insert">
+		insert into member
+			(userid, pwd, name, phone, email, createdate, isAdmin, userStatus, delete_yn)
+		values(#{userId}, #{pwd}, #{name}, #{phone}, #{email}, #{createdate}, #{isAdmin}, #{userStatus}, #{delete_yn})
+	</insert>
+	
+	<update id="edit">
+		update member
+		set pwd = #{pwd}, name = #{name}, email = #{email}, phone = #{phone}, logindatetime = #{logindatetime}, delete_yn = #{delete_yn}, userStatus = #{userStatus}
+		where userId = #{userId}
+	</update>
 </mapper>

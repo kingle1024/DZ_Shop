@@ -35,8 +35,11 @@ public class MemberController {
 			@RequestParam String userId,
 			@RequestParam String pwd,
 			Locale locale, Model model) {
-
-
 		return "home";
+	}
+
+	@RequestMapping("/register.do")
+	public String login() {
+		return "/member/register";
 	}
 }

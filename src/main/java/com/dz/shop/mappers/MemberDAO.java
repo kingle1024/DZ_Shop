@@ -11,4 +11,10 @@ public interface MemberDAO {
 	List<MemberVO> memberList(BoardParam boardParam);
 	long listSize(String search);
 	MemberVO findByMember(MemberVO memberVO);
+
+	MemberVO findById(String userId);
+
+	long insert(MemberVO member);
+
+	long edit(MemberVO member);
 }
