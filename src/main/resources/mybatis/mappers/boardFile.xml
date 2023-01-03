@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+           "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dz.shop.Dao.BoardFileDAO">
+	<insert id="add" useGeneratedKeys="true" keyProperty="f_id">
+		insert into board_file(
+		   number, org_name, real_name, content_type, length, thumbnail, register_date
+		)values(
+			#{number}, #{org_name}, #{real_name}, #{content_type}, #{length}, #{thumbnail}, #{register_date}
+		)
+	</insert>
+</mapper>

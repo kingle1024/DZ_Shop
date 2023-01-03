@@ -1,12 +1,11 @@
-package com.dz.shop.service;
+package com.dz.shop.service.Impl;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.admin.MemberEnum;
-import com.dz.shop.mappers.AdminDAO;
-import lombok.RequiredArgsConstructor;
+import com.dz.shop.Dao.AdminDAO;
+import com.dz.shop.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class AdminServiceImpl implements AdminService{
+public class AdminServiceImpl implements AdminService {
 
     private final AdminDAO adminDAO;
 
@@ -31,8 +30,8 @@ public class AdminServiceImpl implements AdminService{
                 .build();
         param.init();
 
-        long totalCount = 0;
-        List<?> list = null;
+        long totalCount;
+        List<?> list;
         list = adminDAO.memberList(param);
         totalCount = adminDAO.listSize(param.getSearch());
 
