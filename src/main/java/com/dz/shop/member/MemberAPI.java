@@ -1,25 +1,33 @@
 package com.dz.shop.member;
 
 import com.dz.shop.admin.MemberEnum;
+import com.dz.shop.entity.MailVO;
 import com.dz.shop.entity.MemberVO;
+import com.dz.shop.service.MailServiceImpl;
 import com.dz.shop.service.MemberService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+@EnableAsync
 @RestController
 @RequestMapping("/api/member/*")
 public class MemberAPI {
     private static final Logger logger = LoggerFactory.getLogger(MemberAPI.class);
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    MailServiceImpl mailService;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Map<String, Object> login(
@@ -92,6 +100,21 @@ public class MemberAPI {
             resultMap.put("url", request.getContextPath()+"/member/loginForm.do");
         }
 
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/searchId", method = RequestMethod.POST)
+    public Map<String, Object> searchId(
+            @RequestBody MailVO mailVO
+            ) throws UnsupportedEncodingException {
+
+        mailService.sendMail(mailVO);
+
+        // 아이디, 이름 맞으면 이메일 전송
+        // 이메일 임시번호 client로 전달
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("status", true);
         return resultMap;
     }
 }

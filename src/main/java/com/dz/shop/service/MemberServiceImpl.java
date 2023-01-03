@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class MemberServiceImpl implements MemberService{
     public MemberVO login(MemberVO memberVO) {
         MemberVO member = memberDAO.findByMember(memberVO);
         if(member != null){
-            member.setCreatedate(LocalDateTime.now());
+            member.setLogindatetime(LocalDateTime.now());
             memberDAO.edit(member);
         }
         return member;
@@ -56,6 +57,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public long insert(MemberVO member) {
         return memberDAO.insert(member);
+    }
+
+    @Override
+    public String sendMail(Map<String, Object> param) {
+
+        return null;
     }
 
 
