@@ -3,7 +3,7 @@ package com.dz.shop.service;
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.MemberVO;
-import com.dz.shop.mappers.MemberDAO;
+import com.dz.shop.Dao.MemberDAO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

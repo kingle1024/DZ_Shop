@@ -1,4 +1,4 @@
-package com.dz.shop.mappers;
+package com.dz.shop.Dao;
 
 import java.util.List;
 

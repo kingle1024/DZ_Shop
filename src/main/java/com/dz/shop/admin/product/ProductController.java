@@ -1,8 +1,8 @@
-package com.dz.shop.admin;
+package com.dz.shop.admin.product;
 
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.ProductVO;
-import com.dz.shop.service.AdminProductService;
+import com.dz.shop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ import java.nio.file.Paths;
 public class ProductController {
 	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 	@Autowired
-	AdminProductService adminProductService;
+	ProductService productService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(HttpServletRequest request,
@@ -35,7 +35,7 @@ public class ProductController {
 		String search = request.getParameter("search");
 		String pageIndex = request.getParameter("pageIndex");
 
-		PageUtil pageUtil = adminProductService.pageUtil(search, pageIndex, "");
+		PageUtil pageUtil = productService.pageUtil(search, pageIndex, "");
 
 		model.addAttribute("list", pageUtil.getList());
 		model.addAttribute("pager", pageUtil.paper());
@@ -59,7 +59,7 @@ public class ProductController {
 	@RequestMapping(value = "/thumbnail.do", method = RequestMethod.GET)
 	public void fileDownload(
 			@RequestParam("no") String no, HttpServletResponse response) throws IOException {
-		ProductVO product = adminProductService.getProduct(no);
+		ProductVO product = productService.getProduct(no);
 		if(product != null){
 			response.setHeader("Cache-Control", "no-cache");
 			response.addHeader("Content-disposition", "attachment; fileName=" + product.getThumbnail());

@@ -21,12 +21,12 @@
 	
 	<!-- SqlSesionTemplate 클래스 설정  -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
-	    <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory" />
+	    <constructor-arg ref="sqlSessionFactory" />
 	</bean>
 
 	<!-- DAO 파일 찾기 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-  		<property name="basePackage" value="com.dz.shop.mappers" />
+  		<property name="basePackage" value="com.dz.shop.Dao" />
   		<property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
   	</bean>
 

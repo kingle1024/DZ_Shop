@@ -1,9 +1,9 @@
-package com.dz.shop.admin;
+package com.dz.shop.admin.product;
 
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
-import com.dz.shop.service.AdminProductService;
+import com.dz.shop.service.ProductService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -27,7 +27,7 @@ import java.util.Map;
 public class ProductAPI {
     private static final Logger logger = LoggerFactory.getLogger(ProductAPI.class);
     @Autowired
-    AdminProductService adminProductService;
+    ProductService productService;
     private final String fileRepository = "/Users/ejy1024/Documents/upload";
 
 
@@ -38,7 +38,7 @@ public class ProductAPI {
     ){
         logger.info("ProductAPI.search");
         Map<String, Object> map = new HashMap<>();
-        PageUtil pageUtil = adminProductService.pageUtil(search, pageIndex, "");
+        PageUtil pageUtil = productService.pageUtil(search, pageIndex, "");
 
         map.put("list", pageUtil.getList());
         map.put("pager", pageUtil.paper());
@@ -130,7 +130,7 @@ public class ProductAPI {
                     .thumbnail(thumbnail)
                     .build();
 
-            long result = adminProductService.add(product, boardFiles);
+            long result = productService.add(product, boardFiles);
             Map<String, Object> jsonResult = new HashMap<>();
 
             if (result < 0) {

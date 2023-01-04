@@ -1,6 +1,6 @@
 package com.dz.shop.member;
 
-import com.dz.shop.admin.MemberEnum;
+import com.dz.shop.entity.MemberEnum;
 import com.dz.shop.entity.MailVO;
 import com.dz.shop.entity.MemberVO;
 import com.dz.shop.service.MailServiceImpl;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
@@ -55,7 +54,7 @@ public class MemberAPI {
     }
 
     @RequestMapping(value = "/dupUidCheck", method = RequestMethod.GET)
-    public Map<String, Object> dupUidCheck(HttpServletRequest request, HttpServletResponse response){
+    public Map<String, Object> dupUidCheck(HttpServletRequest request){
         System.out.println("MemberAPI.dupUidCheck");
 
         String userId = request.getParameter("userId");

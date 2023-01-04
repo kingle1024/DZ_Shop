@@ -2,7 +2,7 @@ package com.dz.shop.service.Impl;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
-import com.dz.shop.admin.MemberEnum;
+import com.dz.shop.entity.MemberEnum;
 import com.dz.shop.Dao.AdminDAO;
 import com.dz.shop.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -22,4 +22,5 @@ public class MemberVO {
 	private boolean delete_yn;
 	private boolean isAdmin;
 	private LocalDateTime createdate;
+	private LocalDateTime logindatetime;
 }

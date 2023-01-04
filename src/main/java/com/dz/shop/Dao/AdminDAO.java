@@ -1,15 +1,12 @@
-package com.dz.shop.mappers;
+package com.dz.shop.Dao;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.entity.MemberVO;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Mapper
 public interface AdminDAO {
 	List<MemberVO> memberList(BoardParam boardParam);
 	long listSize(String search);

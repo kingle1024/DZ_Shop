@@ -10,27 +10,24 @@
 <html>
 <head>
     <title>Title</title>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous" >
-    </script>
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/admin/product/add">상품등록</a><br/>
 
 <form name="searchForm" id="searchForm">
     <label for="search"></label><input type="text" placeholder="검색할 제목 입력" id="search" name="search" autofocus>
-    <input type="hidden" id="type" name="type" value="${type}">
     <input type="hidden" id="pageIndex" name="pageIndex" >
     <input type="hidden" id="pageSize" name="pageSize">
     <input type="submit" value="검색">
 </form>
 
-<table>
+<table class="table">
     <thead>
         <tr>
-            <td>이미지</td>
-            <td>상품명</td>
-            <td>가격</td>
-            <td>수정</td>
+            <th scope="col">이미지</th>
+            <th scope="col">상품명</th>
+            <th scope="col">가격</th>
+            <th scope="col">수정</th>
         </tr>
     </thead>
     <tbody id="tbody">

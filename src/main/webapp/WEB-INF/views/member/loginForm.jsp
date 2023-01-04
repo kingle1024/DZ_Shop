@@ -13,6 +13,7 @@
 	비밀번호 : <input type="password" name="pwd" id="pwd"> <br/>
 	<input type="submit">
 </form>
+<a href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a><br/>
 <a href="${pageContext.request.contextPath}/member/register.do">회원가입</a>
 
 <script>

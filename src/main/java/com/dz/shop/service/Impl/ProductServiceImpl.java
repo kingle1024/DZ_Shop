@@ -6,7 +6,7 @@ import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
-import com.dz.shop.service.AdminProductService;
+import com.dz.shop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,12 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class AdminProductServiceServiceImpl implements AdminProductService {
+public class ProductServiceImpl implements ProductService {
     private final AdminProductDAO adminProductDAO;
     private final BoardFileDAO boardFileDAO;
 
     @Autowired
-    public AdminProductServiceServiceImpl(AdminProductDAO adminProductDAO, BoardFileDAO boardFileDAO) {
+    public ProductServiceImpl(AdminProductDAO adminProductDAO, BoardFileDAO boardFileDAO) {
         this.adminProductDAO = adminProductDAO;
         this.boardFileDAO = boardFileDAO;
     }
