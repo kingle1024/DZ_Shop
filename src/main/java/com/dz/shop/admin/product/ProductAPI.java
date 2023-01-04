@@ -38,7 +38,7 @@ public class ProductAPI {
     ){
         logger.info("ProductAPI.search");
         Map<String, Object> map = new HashMap<>();
-        PageUtil pageUtil = productService.pageUtil(search, pageIndex, "");
+        PageUtil pageUtil = productService.pageUtil(search, pageIndex, "product");
 
         map.put("list", pageUtil.getList());
         map.put("pager", pageUtil.paper());
@@ -111,7 +111,7 @@ public class ProductAPI {
                         File thumbFile = new File(fileRepository + "/" + thumbnail);
                         Thumbnails.of(saveFile)
                                 .size(50, 50)
-                                .outputFormat("png").toFile(thumbFile);
+                                .outputFormat(contentType[1]).toFile(thumbFile);
                         thumbnail = thumbFile + "." + contentType[1];
                         boardFile.setThumbnail(thumbnail);
                     }
