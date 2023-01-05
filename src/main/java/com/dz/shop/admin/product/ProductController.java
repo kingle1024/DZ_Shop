@@ -31,11 +31,11 @@ public class ProductController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(HttpServletRequest request,
 			Model model){
-
+		logger.info("ProductController.list");
 		String search = request.getParameter("search");
 		String pageIndex = request.getParameter("pageIndex");
 
-		PageUtil pageUtil = productService.pageUtil(search, pageIndex, "");
+		PageUtil pageUtil = productService.pageUtil(search, pageIndex, "product");
 
 		model.addAttribute("list", pageUtil.getList());
 		model.addAttribute("pager", pageUtil.paper());

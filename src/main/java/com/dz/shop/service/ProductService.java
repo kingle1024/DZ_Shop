@@ -10,5 +10,5 @@ public interface ProductService {
     PageUtil pageUtil(String search, String pageIndex, String type);
 
     long add(ProductVO product, List<BoardFile> boardFiles);
-    ProductVO getProduct(String id);
+    ProductVO getProduct(String no);
 }

@@ -120,7 +120,6 @@ public class ProductAPI {
 
             String writer = (String) session.getAttribute("sessionName");
             String writerId = (String) session.getAttribute("sessionUserId");
-            System.out.println("thumbnail = " + thumbnail);
             ProductVO product = ProductVO.builder()
                     .title(title)
                     .content(content)
@@ -148,4 +147,5 @@ public class ProductAPI {
             throw new RuntimeException(e);
         }
     }
+
 }

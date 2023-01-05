@@ -11,4 +11,5 @@ public interface AdminProductDAO {
     long add(ProductVO product);
     long maxNo();
     ProductVO findByNo(String no);
+    long edit(ProductVO product);
 }

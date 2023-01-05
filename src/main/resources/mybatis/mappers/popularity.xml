@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+           "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dz.shop.Dao.PopularityDAO">
+	<select id="findByBnoAndUserIdAndIsDelete"  parameterType="String" resultType="com.dz.shop.entity.Popularity">
+		select *
+		from board_popularity
+		where
+		    bno = #{bno} and
+		    userId = #{userId} and
+		    isDelete = 0
+	</select>
+
+	<insert id="insert" >
+		insert into board_popularity(
+		 bno, userId, type, isDelete, register_date
+		 ) values(#{bno}, #{userId}, #{type}, 0, now())
+	</insert>
+
+	<update id="update" >
+		update board_popularity
+		set bno = #{bno}, userId = #{userId}, type = #{type}, isDelete = #{isDelete}
+		where bno = #{bno} and userId = #{userId}
+
+	</update>
+</mapper>

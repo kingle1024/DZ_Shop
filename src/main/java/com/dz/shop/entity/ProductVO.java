@@ -17,8 +17,10 @@ public class ProductVO {
     private String content;
     private String writer;
     private String thumbnail;
-    int price;
+    private int price;
+    private int like_count;
+    private int dislike_count;
     private LocalDateTime regist_date;
     private LocalDateTime update_date;
-
+    private boolean delete_yn;
 }

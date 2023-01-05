@@ -2,6 +2,7 @@ package com.dz.shop.service.Impl;
 
 import com.dz.shop.Dao.AdminProductDAO;
 import com.dz.shop.Dao.BoardFileDAO;
+import com.dz.shop.Dao.CommentDAO;
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BoardFile;
@@ -17,11 +18,13 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
     private final AdminProductDAO adminProductDAO;
     private final BoardFileDAO boardFileDAO;
+    private final CommentDAO commentDAO;
 
     @Autowired
-    public ProductServiceImpl(AdminProductDAO adminProductDAO, BoardFileDAO boardFileDAO) {
+    public ProductServiceImpl(AdminProductDAO adminProductDAO, BoardFileDAO boardFileDAO, CommentDAO commentDAO) {
         this.adminProductDAO = adminProductDAO;
         this.boardFileDAO = boardFileDAO;
+        this.commentDAO = commentDAO;
     }
 
 
@@ -34,10 +37,21 @@ public class ProductServiceImpl implements ProductService {
                 .build();
         param.init();
 
-        long totalCount;
-        List<?> list;
-        list = adminProductDAO.list(param);
-        totalCount = adminProductDAO.listSize(param.getSearch());
+        long totalCount = 0;
+        List<?> list = null;
+
+        switch (type){
+            case "product":{
+                list = adminProductDAO.list(param);
+                totalCount = adminProductDAO.listSize(param.getSearch());
+                break;
+            }
+            case "comment":{
+                list = commentDAO.list(param);
+                totalCount = commentDAO.listSize(param.getSearch());
+                break;
+            }
+        }
 
         return PageUtil.builder()
                 .list(list)
