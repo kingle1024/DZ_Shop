@@ -8,17 +8,24 @@ import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.ProductService;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
     private final AdminProductDAO adminProductDAO;
     private final BoardFileDAO boardFileDAO;
     private final CommentDAO commentDAO;
+    private final String fileRepository = "/Users/ejy1024/Documents/upload";
 
     @Autowired
     public ProductServiceImpl(AdminProductDAO adminProductDAO, BoardFileDAO boardFileDAO, CommentDAO commentDAO) {
@@ -74,6 +81,68 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return result;
+    }
+
+    public long edit(Map<String, Object> map){
+        ProductVO product = adminProductDAO.findByNo((String) map.get("no"));
+        product.setTitle((String) map.get("title"));
+        product.setContent((String) map.get("editor"));
+
+        return adminProductDAO.edit(product);
+    }
+
+    @Override
+    public void fileAdd(String no, Map<String, MultipartFile> fileMap) {
+        System.out.println("ProductServiceImpl.fileAdd");
+
+        List<BoardFile> boardFileList = new ArrayList<>();
+        fileMap.forEach( (strKey, strValue)-> {
+            if(strValue.getSize() != 0){
+                try {
+                    String realName = String.valueOf(System.nanoTime());
+                    String thumbnail = "thumbnail_" + System.nanoTime();
+                    String contentType = strValue.getContentType().toLowerCase();
+                    String fileFormat = contentType.split("/")[1];
+                    BoardFile boardFile = BoardFile.builder()
+                            .number(Integer.parseInt(no))
+                            .org_name(strValue.getOriginalFilename())
+                            .real_name(realName)
+                            .content_type(contentType)
+                            .length((int)strValue.getSize())
+                            .register_date(LocalDateTime.now())
+                            .build();
+
+                    boardFileList.add(boardFile);
+
+                    File file = new File(fileRepository+"/"+realName+"."+fileFormat);
+                    strValue.transferTo(file);
+
+                    if (strKey.equals("thumbnail") && contentType.contains("image")) {
+                        boardFile.setThumbnail(thumbnail + "."+fileFormat);
+                        File thumbFile = new File(fileRepository + "/" + thumbnail);
+                        Thumbnails.of(file)
+                                .size(500,500)
+                                .outputFormat(fileFormat)
+                                .toFile(thumbFile);
+
+                        ProductVO product = adminProductDAO.findByNo(no);
+                        product.setThumbnail(fileRepository+"/"+thumbnail + "." + fileFormat);
+                        adminProductDAO.edit(product);
+                    }
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            for(BoardFile boardFile : boardFileList){
+                boardFileDAO.add(boardFile);
+            }
+        });
+    }
+
+    @Override
+    public List<BoardFile> fileList(String number) {
+        return boardFileDAO.list(number);
     }
 
     @Override

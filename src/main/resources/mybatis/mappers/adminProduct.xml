@@ -8,7 +8,9 @@
 		select 
 			*
 		from product
-		where title like concat('%', #{search}, '%') limit #{pageStart}, #{pageEnd}
+		where title like concat('%', #{search}, '%')
+		order by no desc
+		limit #{pageStart}, #{pageEnd}
 	</select>
 
 	<select id="listSize" parameterType="String" resultType="long">
@@ -19,11 +21,11 @@
 
 	<insert id="add">
 		insert into product(
-		title, content, writer, price, thumbnail,
-		                    regist_date, update_date)
+		title, content, writer, price, thumbnail, like_count, dislike_count,
+		                    regist_date, update_date, delete_yn)
 		values (
-		#{title}, #{content}, #{writer}, #{price}, #{thumbnail},
-		        #{regist_date}, #{update_date}
+		#{title}, #{content}, #{writer}, #{price}, #{thumbnail}, #{like_count}, #{dislike_count},
+		        #{regist_date}, #{update_date}, #{delete_yn}
 	   )
 	</insert>
 
@@ -36,4 +38,19 @@
 		from product
 		where no = #{no}
 	</select>
+
+	<update id="edit">
+		UPDATE product
+		SET title = #{title},
+		    content = #{content},
+		    writer = #{writer},
+		    price = #{price},
+		    thumbnail = #{thumbnail},
+		    like_count = #{like_count},
+		    dislike_count = #{dislike_count},
+		    regist_date = #{regist_date},
+		    update_date = #{update_date},
+		    delete_yn = #{delete_yn}
+		WHERE no = #{no}
+	</update>
 </mapper>

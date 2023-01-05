@@ -1,6 +1,7 @@
 package com.dz.shop.Product;
 
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.PopularityService;
 import com.dz.shop.service.ProductService;
@@ -20,6 +21,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Controller
 @RequestMapping("/product")
@@ -39,6 +41,9 @@ public class ClientProductController {
 
         PageUtil pageUtil = productService.pageUtil(no, "", "comment");
         model.addAttribute("cs", pageUtil.getList());
+
+        List<BoardFile> files = productService.fileList(no);
+        model.addAttribute("files", files);
 
         String userId = (String) session.getAttribute("sessionUserId");
         String myStatus = popularityService.findByBnoAndUserIdAndIsDelete(no, userId);

@@ -11,4 +11,10 @@
 			#{number}, #{org_name}, #{real_name}, #{content_type}, #{length}, #{thumbnail}, #{register_date}
 		)
 	</insert>
+
+	<select id="list" resultType="com.dz.shop.entity.BoardFile">
+		select *
+		from board_file
+		where number = #{number}
+	</select>
 </mapper>

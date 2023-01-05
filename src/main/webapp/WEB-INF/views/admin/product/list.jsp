@@ -33,7 +33,7 @@
     <tbody id="tbody">
     <c:forEach var="list" items="${list }">
         <tr>
-            <td><img src="${pageContext.request.contextPath}/admin/product/thumbnail.do?no=${list.no}" alt=" " /></td>
+            <td><img width="50px" height="50px" src="${pageContext.request.contextPath}/admin/product/thumbnail.do?no=${list.no}" alt=" " /></td>
             <td>${list.title}</td>
             <td>${list.price}</td>
             <td><button class="editMode" data-id="${list.no}">수정</button></td>

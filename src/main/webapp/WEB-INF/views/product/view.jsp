@@ -36,7 +36,11 @@
 <br/>
 상품명 : ${product.title} <br/>
 내용 : ${product.content} <br/>
-가격 : ${product.price} <br/>
+가격 : ${product.price} <br/><br/>
+<h3>파일</h3>
+<c:forEach var="list" items="${files}" varStatus="status">
+    ${list.org_name} <br/>
+</c:forEach>
 
 <br/>
 <h3>댓글</h3>
