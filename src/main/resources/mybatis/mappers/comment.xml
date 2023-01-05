@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+           "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dz.shop.Dao.CommentDAO">
+	<select id="list" resultType="com.dz.shop.entity.CommentVO">
+		select 
+			*
+		from comment
+		where product_no = #{search}
+		order by parent_no desc, no
+		limit #{pageStart}, #{pageEnd}
+	</select>
+
+	<select id="listSize" parameterType="String" resultType="long">
+		select count(*)
+		from comment
+		where comment like concat('%', #{search}, '%')
+	</select>
+
+	<insert id="add">
+		insert into comment(
+			comment, product_no, parent_no, writer, writer_id, register_date, update_date, delete_yn
+		)values (
+			#{comment}, #{product_no}, #{parent_no}, #{writer}, #{writer_id}, #{register_date}, #{update_date}, #{delete_yn}
+	    )
+	</insert>
+
+	<select id="maxNo" resultType="long">
+		SELECT max(no) from comment;
+	</select>
+
+	<select id="findByNo" parameterType="String" resultType="com.dz.shop.entity.CommentVO">
+		select *
+		from comment
+		where no = #{no}
+	</select>
+
+	<update id="edit">
+		UPDATE comment
+		SET comment = #{comment},
+		    writer = #{writer},
+		    writer_id = #{writer_id},
+		    product_no = #{product_no},
+		    parent_no = #{parent_no},
+		    update_date = #{update_date},
+		    delete_yn = #{delete_yn}
+		WHERE no = #{no}
+	</update>
+</mapper>
