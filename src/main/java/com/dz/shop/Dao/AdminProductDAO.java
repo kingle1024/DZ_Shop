@@ -5,6 +5,7 @@ import com.dz.shop.entity.ProductVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AdminProductDAO {
@@ -14,4 +15,5 @@ public interface AdminProductDAO {
     long maxNo();
     ProductVO findByNo(String no);
     long edit(ProductVO product);
+    long del(Map<String, Object> map);
 }

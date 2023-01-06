@@ -28,6 +28,7 @@
             <th scope="col">상품명</th>
             <th scope="col">가격</th>
             <th scope="col">수정</th>
+            <th scope="col">삭제</th>
         </tr>
     </thead>
     <tbody id="tbody">
@@ -37,6 +38,7 @@
             <td>${list.title}</td>
             <td>${list.price}</td>
             <td><button class="editMode" data-id="${list.no}">수정</button></td>
+            <td><button class="delMode" data-id="${list.no}">삭제</button></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -69,6 +71,7 @@
                     html += "<td>" + product[key].title + "</td>";
                     html += "<td>" + product[key].price + "</td>";
                     html += "<td><button class='editMode' data-id='" + product[key].no + "'>수정</button></td>";
+                    html += "<td><button class='deleteMode' data-id='" + product[key].no + "'>삭제</button></td>";
                     html += "</tr>";
                 }
                 document.querySelector("#tbody").innerHTML = html;
@@ -90,6 +93,31 @@
         let userId = link.getAttribute("data-id");
 
         location.href = '${pageContext.request.contextPath}/admin/product/view/'+userId;
+    });
+
+    $(".delMode").on("click", e => {
+        e.preventDefault();
+        let link = e.target;
+        let no = link.getAttribute("data-id");
+
+        let param = {
+            "no" : no
+        }
+
+        fetch('${pageContext.request.contextPath}/api/admin/product/del', {
+            method : 'POST',
+            headers : {
+                'Content-Type' : 'application/json; charset=utf-8'
+            },
+            body : JSON.stringify(param)
+        }).then(response => response.json())
+            .then(jsonResult => {
+                alert(jsonResult.message);
+                if(jsonResult.status === true){
+                    link.parentNode.parentNode.remove();
+                }
+            });
+
     });
 </script>
 </body>

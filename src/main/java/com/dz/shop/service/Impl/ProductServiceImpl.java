@@ -156,6 +156,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public long del(Map<String, Object> map) {
+        return adminProductDAO.del(map);
+    }
+
+    @Override
     public ProductVO getProduct(String no) {
         return adminProductDAO.findByNo(no);
     }

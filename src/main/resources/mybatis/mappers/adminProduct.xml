@@ -9,6 +9,7 @@
 			*
 		from product
 		where title like concat('%', #{search}, '%')
+			and delete_yn = 0
 		order by no desc
 		limit #{pageStart}, #{pageEnd}
 	</select>
@@ -52,5 +53,11 @@
 		    update_date = #{update_date},
 		    delete_yn = #{delete_yn}
 		WHERE no = #{no}
+	</update>
+
+	<update id="del">
+		UPDATE product
+		SET delete_yn = 1
+		WHERE  no = #{no}
 	</update>
 </mapper>

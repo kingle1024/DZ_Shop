@@ -16,4 +16,5 @@ public interface ProductService {
     void fileAdd(String no, Map<String, MultipartFile> fileMap);
     List<BoardFile> fileList(String number);
     BoardFile getBoardFile(String f_id);
+    long del(Map<String, Object> map);
 }

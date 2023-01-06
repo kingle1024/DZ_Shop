@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -92,6 +93,27 @@ public class ProductAPI {
         resultMap.put("status", true);
         resultMap.put("message", "성공");
         resultMap.put("url", multipartRequest.getContextPath()+"/admin/product/list");
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public Map<String, Object> del(
+            HttpServletRequest request,
+            @RequestBody Map<String, Object> map
+    ) {
+        System.out.println("map = " + map);
+        long result = productService.del(map);
+        System.out.println("result = " + result);
+        Map<String, Object> resultMap = new HashMap<>();
+
+        if(result > 0) {
+            resultMap.put("status", true);
+            resultMap.put("message", "삭제 성공");
+        }else{
+            resultMap.put("status", false);
+            resultMap.put("message", "삭제 실패");
+        }
+
         return resultMap;
     }
 }
