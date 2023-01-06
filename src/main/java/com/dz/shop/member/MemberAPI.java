@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @EnableAsync
-@RestController
+@RestController("memberAPI")
 @RequestMapping("/api/member/*")
 public class MemberAPI {
     private static final Logger logger = LoggerFactory.getLogger(MemberAPI.class);
