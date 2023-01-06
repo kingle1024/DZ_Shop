@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BoardFile {
-    private int fid;
+    private int f_id;
     private int number;
     private String org_name;
     private String real_name;

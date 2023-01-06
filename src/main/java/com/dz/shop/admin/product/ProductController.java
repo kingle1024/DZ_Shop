@@ -1,6 +1,7 @@
 package com.dz.shop.admin.product;
 
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.ProductService;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin/product")
@@ -44,10 +46,10 @@ public class ProductController {
 
 	@RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
 	public String view(Model model, @PathVariable("no") String no){
-
-
-		model.addAttribute("no", no);
-
+		ProductVO product = productService.getProduct(no);
+		model.addAttribute("product", product);
+		List<BoardFile> files = productService.fileList(no);
+		model.addAttribute("files", files);
 		return "admin/product/view";
 	}
 
@@ -60,6 +62,7 @@ public class ProductController {
 	public void fileDownload(
 			@RequestParam("no") String no, HttpServletResponse response) throws IOException {
 		ProductVO product = productService.getProduct(no);
+		logger.info("product = " + product);
 		if(product != null){
 			response.setHeader("Cache-Control", "no-cache");
 			response.addHeader("Content-disposition", "attachment; fileName=" + product.getThumbnail());

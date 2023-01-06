@@ -9,14 +9,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <form id="uploadForm" method="post" enctype="multipart/form-data">
     <img src="${pageContext.request.contextPath}/admin/product/thumbnail.do?no=${product.no}" alt=" " /><br/>
-    <input type="file" name="thumbnail" value="${product.thumbnail}"> <br/>
+    <input type="file" name="thumbnail" id="thumbnail"> <br/>
 
     <input type="text" name="title" value="${product.title}"> <br/>
     <input type="text" name="price" value="${product.price}"> <br/>
     <input type="hidden" name="no" value="${product.no}">
+    <input type="hidden" id="delFiles" name="delFiles" value="">
     <textarea name="editor" id="editor">${product.content}</textarea> <br/>
     <c:forEach var="list" items="${files}" varStatus="status">
-        ${list.org_name} <button>삭제</button> <br/>
+        ${list.org_name} <button class="fileDel" name="fileDel" data-id="${list.f_id}">삭제</button> <br/>
     </c:forEach>
 
     <table>
@@ -83,4 +84,23 @@
             }
         });
     });
+</script>
+<script>
+    document.querySelector(".fileDel").addEventListener("click", e => {
+        e.preventDefault();
+        let link = e.target;
+        let delData = link.getAttribute("data-id");
+        let delFiles = document.querySelector("#delFiles");
+
+        if(delFiles.value.length < 1) {
+            delFiles.value = delData;
+        }else{
+            delFiles.value += ","+delData;
+        }
+
+        console.log(document.querySelector("#delFiles"));
+
+
+    });
+
 </script>

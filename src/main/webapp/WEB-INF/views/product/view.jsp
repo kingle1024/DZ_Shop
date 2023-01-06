@@ -39,8 +39,9 @@
 가격 : ${product.price} <br/><br/>
 <h3>파일</h3>
 <c:forEach var="list" items="${files}" varStatus="status">
-    ${list.org_name} <br/>
+    <a href="${pageContext.request.contextPath}/product/fileDownload.do?fid=${list.f_id}">${list.org_name}</a> <br/>
 </c:forEach>
+<input type="hidden" id="product_no" name="product_no" value="${product.no}">
 
 <br/>
 <h3>댓글</h3>
@@ -77,7 +78,7 @@
         let param = {
             'comment' : 'test',
             'parent_no' : parent_no,
-            'product_no' : '${product.no}'
+            'product_no' : product_no.value
         }
         console.log(param);
 

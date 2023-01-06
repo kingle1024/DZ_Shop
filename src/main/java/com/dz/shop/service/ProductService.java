@@ -10,11 +10,10 @@ import java.util.Map;
 
 public interface ProductService {
     PageUtil pageUtil(String search, String pageIndex, String type);
-
-    long add(ProductVO product, List<BoardFile> boardFiles);
+    long add(Map<String, Object> map);
     ProductVO getProduct(String no);
     long edit(Map<String, Object> map);
-
     void fileAdd(String no, Map<String, MultipartFile> fileMap);
     List<BoardFile> fileList(String number);
+    BoardFile getBoardFile(String f_id);
 }

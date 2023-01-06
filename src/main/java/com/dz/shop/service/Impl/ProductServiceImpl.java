@@ -68,20 +68,24 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
-    @Transactional
     @Override
-    public long add(ProductVO product, List<BoardFile> boardFiles) {
-
-        long result = adminProductDAO.add(product);
-        long productNo = adminProductDAO.maxNo();
-
-        for(BoardFile bf : boardFiles){
-            bf.setNumber((int) productNo);
-            boardFileDAO.add(bf);
+    @Transactional
+    public long add(Map<String, Object> map) {
+        int price = Integer.parseInt((String) map.get("price"));
+        ProductVO product = ProductVO.builder()
+                .title((String) map.get("title"))
+                .content((String) map.get("editor"))
+                .writer((String) map.get("writer"))
+                .regist_date(LocalDateTime.now())
+                .price(price)
+                .build();
+        System.out.println("product = " + product);
+        if(adminProductDAO.add(product) > 0){
+            return adminProductDAO.maxNo();
         }
-
-        return result;
+        return -1;
     }
+
 
     public long edit(Map<String, Object> map){
         ProductVO product = adminProductDAO.findByNo((String) map.get("no"));
@@ -107,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
                             .number(Integer.parseInt(no))
                             .org_name(strValue.getOriginalFilename())
                             .real_name(realName)
-                            .content_type(contentType)
+                            .content_type(contentType+"."+fileFormat)
                             .length((int)strValue.getSize())
                             .register_date(LocalDateTime.now())
                             .build();
@@ -143,6 +147,12 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<BoardFile> fileList(String number) {
         return boardFileDAO.list(number);
+    }
+
+    @Override
+    public BoardFile getBoardFile(String f_id) {
+        System.out.println("ProductServiceImpl.getBoardFile");
+        return boardFileDAO.view(f_id);
     }
 
     @Override
