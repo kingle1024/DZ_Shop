@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -29,9 +27,9 @@ public class ClientProductController {
     private static final Logger logger = LoggerFactory.getLogger(ClientProductController.class);
     @Autowired
     ProductService productService;
-
     @Autowired
     PopularityService popularityService;
+    private final String fileRepository = "/Users/ejy1024/Documents/upload";
 
     @RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
     public String view(Model model, @PathVariable("no") String no, HttpSession session){
@@ -43,6 +41,7 @@ public class ClientProductController {
         model.addAttribute("cs", pageUtil.getList());
 
         List<BoardFile> files = productService.fileList(no);
+        System.out.println("files = " + files);
         model.addAttribute("files", files);
 
         String userId = (String) session.getAttribute("sessionUserId");
@@ -53,7 +52,7 @@ public class ClientProductController {
     }
 
     @RequestMapping(value = "/thumbnail.do", method = RequestMethod.GET)
-    public void fileDownload(
+    public void thumbnail(
             @RequestParam("no") String no, HttpServletResponse response) throws IOException {
         ProductVO product = productService.getProduct(no);
         if(product != null){
@@ -72,5 +71,35 @@ public class ClientProductController {
             out.close();
             in.close();
         }
+    }
+
+    @RequestMapping(value = "/fileDownload.do", method = RequestMethod.GET)
+    public void fileDownload(@RequestParam("fid") String fid, HttpServletResponse response)
+             {
+                 System.out.println("f_id = " + fid);
+        BoardFile boardFile = productService.getBoardFile(fid);
+                 System.out.println("boardFile = " + boardFile);
+        try {
+            if (boardFile != null) {
+                response.setHeader("Cache-Control", "no-cache");
+                response.setContentLength(boardFile.getLength());
+                response.addHeader("Content-disposition", "attachment; fileName=" + boardFile.getOrg_name());
+                BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
+                BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileRepository + "/" + boardFile.getReal_name()));
+
+                byte [] data = new byte[4096];
+                int count = 0;
+                while(true) {
+                    count = in.read(data);
+                    if (count <= 0) break;
+                    out.write(data);
+                }
+                out.close();
+                in.close();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
