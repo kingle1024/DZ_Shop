@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/member")
 public class MemberController {
@@ -24,6 +26,12 @@ public class MemberController {
 	@RequestMapping("/login.do")
 	public String login() {
 		return "main";
+	}
+
+	@RequestMapping("/logout.do")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
 	}
 
 	@RequestMapping("/register.do")
