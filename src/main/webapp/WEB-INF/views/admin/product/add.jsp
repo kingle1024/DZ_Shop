@@ -7,16 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<html>
-<head>
-    <title>글쓰기</title>
-</head>
-
-<body>
-<form id="insertForm" method="post" enctype="multipart/form-data">
+<form id="uploadForm" method="post" enctype="multipart/form-data">
     상품명 : <input type="text" name="title" id="title" value="상품명 "><br/>
     가격 : <input type="number" name="price" id="price" value="1000"><br/>
-    내용
+    썸네일 : <input type="file" name="thumbnail" id="thumbnail">
+
     <textarea name="editor" id="editor"></textarea>
     <table>
         <tbody>
@@ -41,42 +36,43 @@
     let tbody = $("tbody")[0];
     let tr = $("tfoot tr")[0];
     let insertFile = $(".insertFile");
-
     function insertFileEventHandler() {
         let newTr = tr.cloneNode(true);
         tbody.append(newTr);
         newTr.style.display = "";
-
         newTr.querySelector(".insertFile").addEventListener("click", insertFileEventHandler);
         newTr.querySelector(".deleteFile").addEventListener("click", e => {
             tbody.removeChild(e.target.parentNode.parentNode)
         });
     }
-
     insertFile.on("click", insertFileEventHandler);
 </script>
 
 <script type="text/javascript">
+    let editor;
     ClassicEditor
         .create(document.querySelector( '#editor' ), {language : "ko"} )
+        .then(newEditor => {
+            editor = newEditor;
+        })
         .catch( error => {
             console.error( error );
         } );
+    let boardForm = document.querySelector("#uploadForm");
+    boardForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    $("#insertForm").on('submit', (event) => {
-        event.preventDefault();
         fetch('${pageContext.request.contextPath}/api/admin/product/add', {
             method : 'POST',
             cache: 'no-cache',
-            body : new FormData($('#insertForm')[0])
+            body: new FormData(boardForm)
         })
             .then(response => response.json())
             .then(jsonResult => {
                 alert(jsonResult.message);
-                if(jsonResult.status === true)
+                if(jsonResult.status === true){
                     location.href = jsonResult.url;
+                }
             });
     });
 </script>
-</body>
-</html>
