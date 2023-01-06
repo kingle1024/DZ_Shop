@@ -17,4 +17,10 @@
 		from board_file
 		where number = #{number}
 	</select>
+
+	<select id="view" resultType="com.dz.shop.entity.BoardFile">
+		select *
+		from board_file
+		where f_id = #{f_id}
+	</select>
 </mapper>
