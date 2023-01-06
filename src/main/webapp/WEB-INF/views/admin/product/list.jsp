@@ -65,9 +65,10 @@
                 $("#tbody").empty();
                 let html = "";
                 let product = jsonResult.list;
+                console.log('${pageContext.request.contextPath}');
                 for(let key in product){
                     html += "<tr>";
-                    html += "<td><img src='" + product[key].thumbnail + "' alt=' ' /></td>";
+                    html += "<td><img src='${pageContext.request.contextPath}/admin/product/thumbnail.do?no=" + product[key].no + "' alt=' ' /></td>";
                     html += "<td>" + product[key].title + "</td>";
                     html += "<td>" + product[key].price + "</td>";
                     html += "<td><button class='editMode' data-id='" + product[key].no + "'>수정</button></td>";
@@ -117,7 +118,6 @@
                     link.parentNode.parentNode.remove();
                 }
             });
-
     });
 </script>
 </body>
