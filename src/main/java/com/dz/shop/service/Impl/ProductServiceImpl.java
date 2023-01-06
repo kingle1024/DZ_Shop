@@ -110,7 +110,7 @@ public class ProductServiceImpl implements ProductService {
                     BoardFile boardFile = BoardFile.builder()
                             .number(Integer.parseInt(no))
                             .org_name(strValue.getOriginalFilename())
-                            .real_name(realName)
+                            .real_name(realName+"."+fileFormat)
                             .content_type(contentType+"."+fileFormat)
                             .length((int)strValue.getSize())
                             .register_date(LocalDateTime.now())

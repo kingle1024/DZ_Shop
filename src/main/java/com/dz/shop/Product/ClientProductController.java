@@ -85,10 +85,11 @@ public class ClientProductController {
                 response.setContentLength(boardFile.getLength());
                 response.addHeader("Content-disposition", "attachment; fileName=" + boardFile.getOrg_name());
                 BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
-                BufferedInputStream in = new BufferedInputStream(new FileInputStream(fileRepository + "/" + boardFile.getReal_name()));
+                String path = fileRepository + "/" + boardFile.getReal_name();
+                BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(path)));
 
                 byte [] data = new byte[4096];
-                int count = 0;
+                int count;
                 while(true) {
                     count = in.read(data);
                     if (count <= 0) break;
