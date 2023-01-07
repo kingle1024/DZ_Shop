@@ -1,22 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/ckeditor.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/35.3.2/classic/translations/ko.js"></script>
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-<style>
-    /* ³ĞÀÌ ³ôÀÌ Á¶Àı */
-    .ck.ck-editor {
-        max-width: 1000px;
-    }
-    .ck-editor__editable {
-        min-height: 300px;
-    }
 
-</style>
 <table border=0  width="100%">
   <tr>
      <td>
@@ -25,20 +11,21 @@
 		</a>
      </td>
      <td>
-       <h1><font size=30>½ºÇÁ¸µ½Ç½À È¨ÆäÀÌÁö!!</font></h1>
+       <h1><font size=30>DZ SHOP!!</font></h1>
      </td>
      
      <td>
        <c:choose>
-          <c:when test="${isLogOn == true  && member != null}">
-            <h3>È¯¿µÇÕ´Ï´Ù. ${member.name }´Ô!</h3>
-            <a href="<c:url value='/member/logout.do'/>"><h3>·Î±×¾Æ¿ô</h3></a>
+          <c:when test="${isLogin == true}">
+            <h3>í™˜ì˜í•©ë‹ˆë‹¤. ${sessionName}ë‹˜!</h3>
+            <a href="<c:url value='/member/logout.do'/>"><h3>ë¡œê·¸ì•„ì›ƒ</h3></a>
           </c:when>
           <c:otherwise>
-	        <a href="<c:url value='/member/loginForm.do'/>"><h3>·Î±×ÀÎ</h3></a>
-              <a href="<c:url value='/member/register.do'/>"><h3>È¸¿ø°¡ÀÔ</h3></a>
+	        <a href="<c:url value='/member/loginForm.do'/>"><h3>ë¡œê·¸ì¸</h3></a>
+              <a href="<c:url value='/member/register.do'/>"><h3>íšŒì›ê°€ì…</h3></a>
 	      </c:otherwise>
 	   </c:choose>     
      </td>
   </tr>
 </table>
+
