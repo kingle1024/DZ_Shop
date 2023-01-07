@@ -17,9 +17,9 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-context-support:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-beans:4.1.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:4.1.1.RELEASE" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.5.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.5.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.5.0" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.5.4" />
           <element id="library" level="project" name="Maven: javax.mail:javax.mail-api:1.5.4" />
           <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Maven: com.sun.mail:javax.mail:1.5.4" />
@@ -39,6 +39,7 @@
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.15" />
           <element id="library" level="project" name="Maven: javax.inject:javax.inject:1" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+          <element id="library" level="project" name="Maven: org.json:json:20220924" />
           <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:3.1.0" />
           <element id="library" level="project" name="Maven: com.github.waffle:waffle-jna:3.2.0" />
           <element id="library" level="project" name="Maven: net.java.dev.jna:jna:5.12.1" />
