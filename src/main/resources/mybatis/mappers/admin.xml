@@ -8,14 +8,18 @@
 		select 
 			*
 		from member
-		where name like concat('%', #{search}, '%') limit #{pageStart}, #{pageEnd}
+		where
+		    userStatus != 'DELETE' and
+		    name like concat('%', #{search}, '%') limit #{pageStart}, #{pageEnd}
 
 	</select>
 
 	<select id="listSize" parameterType="String" resultType="long">
 		select count(*)
 		from member
-		where name like concat('%', #{search}, '%')
+		where
+			userStatus != 'DELETE' and
+		    name like concat('%', #{search}, '%')
 	</select>
 
 	<update id="userStatus">

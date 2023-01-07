@@ -1,5 +1,6 @@
 package com.dz.shop.service.Impl;
 
+import com.dz.shop.Dao.Del_MemberDAO;
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.MemberEnum;
@@ -7,6 +8,7 @@ import com.dz.shop.Dao.AdminDAO;
 import com.dz.shop.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +18,12 @@ import java.util.Map;
 public class AdminServiceImpl implements AdminService {
 
     private final AdminDAO adminDAO;
+    private final Del_MemberDAO del_memberDAO;
 
     @Autowired
-    public AdminServiceImpl(AdminDAO adminDAO) {
+    public AdminServiceImpl(AdminDAO adminDAO, Del_MemberDAO del_memberDAO) {
         this.adminDAO = adminDAO;
+        this.del_memberDAO = del_memberDAO;
     }
 
     public PageUtil pageUtil(String search, String pageIndex, String type){
@@ -59,6 +63,20 @@ public class AdminServiceImpl implements AdminService {
         }
 
         return userStatus;
+    }
+
+    @Override
+    @Transactional
+    public long del(String userId) {
+        Map<String, Object> map = new HashMap<>();
+
+        String userStatus = changeUserStatus(MemberEnum.DELETE.name().toUpperCase());
+        map.put("userId", userId);
+        map.put("userStatus", userStatus);
+
+        del_memberDAO.add(map);
+
+        return adminDAO.userStatus(map);
     }
 
     private static String changeUserStatus(String userStatus) {

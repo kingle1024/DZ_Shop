@@ -40,6 +40,7 @@
                 <button class="userStatusUids" data-status="${list.userStatus}" data-uid="${list.userId}">
                     ${list.userStatus == 'STOP' ? '사용' : '미사용'}으로 변경
                 </button>
+                <button class="userDel" data-uid="${list.userId}">삭제</button>
             </td>
         </tr>
     </c:forEach>
@@ -104,6 +105,26 @@
                     link.textContent = "사용으로 변경";
                 }
                 alert("변경되었습니다.");
+            });
+    });
+
+    $(".userDel").on("click", e => {
+        e.preventDefault();
+        let link = e.target;
+        if(!confirm("삭제하시겠습니까?")) return;
+
+        let userId = link.getAttribute("data-uid");
+
+        fetch('${pageContext.request.contextPath}/api/admin/del?userId='+userId)
+            .then(response => response.json())
+            .then(jsonResult => {
+                console.log(jsonResult);
+                if(jsonResult.status === true) {
+                    link.parentNode.parentNode.remove();
+                    alert("삭제되었습니다.");
+                }else{
+                    alert("삭제 실패");
+                }
             });
     });
 </script>

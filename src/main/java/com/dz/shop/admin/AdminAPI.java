@@ -25,7 +25,7 @@ public class AdminAPI {
             @RequestParam String userId,
             @RequestParam String userStatusParam
     ){
-        System.out.println("MemberAPI.userStatus");
+        logger.info("MemberAPI.userStatus");
 
         String userStatus = adminService.userStatus(userId, userStatusParam);
 
@@ -54,6 +54,22 @@ public class AdminAPI {
 
         map.put("list", pageUtil.getList());
         map.put("pager", pageUtil.paper());
+
+        return map;
+    }
+
+    @RequestMapping(value = "/del", method = RequestMethod.GET)
+    public Map<String, Object> del(
+            @RequestParam String userId
+    ){
+        long result = adminService.del(userId);
+
+        Map<String, Object> map = new HashMap<>();
+        if(result < 0) {
+            map.put("status", false);
+        } else {
+            map.put("status", true);
+        }
 
         return map;
     }

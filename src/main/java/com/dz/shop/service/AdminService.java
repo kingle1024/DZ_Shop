@@ -6,4 +6,6 @@ public interface AdminService {
     PageUtil pageUtil(String search, String pageIndex, String type);
 
     String userStatus(String userId, String userStatus);
+
+    long del(String userId);
 }
