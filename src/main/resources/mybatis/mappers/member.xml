@@ -30,6 +30,20 @@
 		where userId = #{userId}
 	</select>
 
+	<select id="findByEmailAndName" resultType="com.dz.shop.entity.MemberVO">
+		select
+		    *
+		from member
+		where email = #{email} and name = #{name}
+	</select>
+
+	<select id="findByIdAndEmail" resultType="com.dz.shop.entity.MemberVO">
+		select
+		    *
+		from member
+    	where userId = #{userId} and email = #{email}
+	</select>
+
 	<insert id="insert">
 		insert into member
 			(userid, pwd, name, phone, email, createdate, isAdmin, userStatus, delete_yn)
