@@ -321,6 +321,7 @@
 				<include>**/*.xml</include>
 				<include>**/*.properties</include>
 				<include>**/*.yml</include>
+				<include>**/*.html</include>
 				<!-- <include>**/*.setting</include>-->
 			</includes>
 		</resource>

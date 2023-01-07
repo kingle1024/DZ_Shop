@@ -14,6 +14,7 @@
 	<input type="submit">
 </form>
 <a href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a><br/>
+<a href="${pageContext.request.contextPath}/member/searchPwd.do">패스워드 찾기</a><br/>
 <a href="${pageContext.request.contextPath}/member/register.do">회원가입</a>
 
 <script>

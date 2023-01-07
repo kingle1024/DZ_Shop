@@ -41,6 +41,13 @@ public class MemberController {
 
 	@RequestMapping("/searchId.do")
 	public String searchId() {
+		System.out.println("MemberController.searchId");
 		return "/member/searchId";
+	}
+
+	@RequestMapping("/searchPwd.do")
+	public String searchPwd() {
+		logger.debug("MemberController.searchPwd");
+		return "/member/searchPwd";
 	}
 }

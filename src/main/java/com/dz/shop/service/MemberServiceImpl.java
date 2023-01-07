@@ -2,6 +2,7 @@ package com.dz.shop.service;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.entity.MemberEnum;
 import com.dz.shop.entity.MemberVO;
 import com.dz.shop.Dao.MemberDAO;
 import lombok.RequiredArgsConstructor;
@@ -56,14 +57,21 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public long insert(MemberVO member) {
+        member.setUserStatus(MemberEnum.USE.name());
+        member.setAdmin(false);
+        member.setCreatedate(LocalDateTime.now());
+        member.setDelete_yn(false);
         return memberDAO.insert(member);
     }
 
     @Override
-    public String sendMail(Map<String, Object> param) {
+    public long edit(Map<String, Object> map) {
+        // retValue 값 비교
+        String userId = (String) map.get("userId");
+        MemberVO member = memberDAO.findById(userId);
+        member.setPwd((String) map.get("pwd"));
 
-        return null;
+        return memberDAO.edit(member);
     }
-
 
 }
