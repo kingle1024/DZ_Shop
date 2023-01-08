@@ -1,10 +1,11 @@
-package com.dz.shop.service;
+package com.dz.shop.service.Impl;
 
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.MemberEnum;
 import com.dz.shop.entity.MemberVO;
 import com.dz.shop.Dao.MemberDAO;
+import com.dz.shop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
     @Autowired
     private MemberDAO memberDAO;
 
@@ -57,6 +58,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public long insert(MemberVO member) {
+        if(member.getPwd() == null || member.getUserId() == null) return -1;
         member.setUserStatus(MemberEnum.USE.name());
         member.setAdmin(false);
         member.setCreatedate(LocalDateTime.now());
@@ -68,6 +70,8 @@ public class MemberServiceImpl implements MemberService{
     public long edit(Map<String, Object> map) {
         // retValue 값 비교
         String userId = (String) map.get("userId");
+        if(userId == null) return -1;
+
         MemberVO member = memberDAO.findById(userId);
         member.setPwd((String) map.get("pwd"));
 

@@ -55,4 +55,9 @@
 		set pwd = #{pwd}, name = #{name}, email = #{email}, phone = #{phone}, logindatetime = #{logindatetime}, delete_yn = #{delete_yn}, userStatus = #{userStatus}
 		where userId = #{userId}
 	</update>
+
+	<delete id="deleteById">
+		delete from member
+		where userId = #{userId}
+	</delete>
 </mapper>

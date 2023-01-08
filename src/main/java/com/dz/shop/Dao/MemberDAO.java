@@ -17,4 +17,5 @@ public interface MemberDAO {
 	MemberVO findByIdAndEmail(Map<String, Object> map);
 	long insert(MemberVO member);
 	long edit(MemberVO member);
+	long deleteById(String userId);
 }
