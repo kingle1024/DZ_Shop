@@ -5,6 +5,7 @@ import com.dz.shop.Page.BoardParam;
 import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.MemberEnum;
 import com.dz.shop.Dao.AdminDAO;
+import com.dz.shop.entity.MemberVO;
 import com.dz.shop.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,10 +74,12 @@ public class AdminServiceImpl implements AdminService {
         String userStatus = changeUserStatus(MemberEnum.DELETE.name().toUpperCase());
         map.put("userId", userId);
         map.put("userStatus", userStatus);
+        MemberVO byUserId = adminDAO.findByUserId(userId);
 
-        del_memberDAO.add(map);
+        if(byUserId == null) return -1;
+        if(adminDAO.userStatus(map) < 0) return -1;
 
-        return adminDAO.userStatus(map);
+        return del_memberDAO.add(map);
     }
 
     private static String changeUserStatus(String userStatus) {

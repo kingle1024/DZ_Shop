@@ -27,4 +27,10 @@
 		set userStatus = '${userStatus}'
 		where userId = '${userId}'
 	</update>
+
+	<select id="findByUserId" resultType="com.dz.shop.entity.MemberVO">
+		select *
+		from member
+		where userId = #{userId}
+	</select>
 </mapper>

@@ -11,4 +11,16 @@
 			#{userId}, now()
 		)
 	</insert>
+
+	<select id="findByUserId" resultType="com.dz.shop.entity.DelMember">
+		select *
+		from del_member
+		where userId = #{userId}
+		limit 1
+	</select>
+
+	<delete id="deleteByUserId">
+		delete from del_member
+		where userId = #{userId}
+	</delete>
 </mapper>

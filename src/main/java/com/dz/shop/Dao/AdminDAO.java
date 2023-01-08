@@ -11,4 +11,5 @@ public interface AdminDAO {
 	List<MemberVO> memberList(BoardParam boardParam);
 	long listSize(String search);
 	int userStatus(Map<String, Object> map);
+	MemberVO findByUserId(String userId);
 }
