@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+           "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dz.shop.Dao.OrderDAO">
+	<insert id="add">
+		insert into `order` (
+		    title, product_no, price, cnt,
+			userId, status, order_number, register_date
+		)values (
+			 #{title}, #{product_no}, #{price}, #{cnt},
+			 #{userId}, #{status}, #{order_number}, now()
+		 )
+	</insert>
+
+	<select id="maxNum" resultType="long">
+		select max(product_no)
+		from `order`
+	</select>
+
+	<select id="mylist" resultType="com.dz.shop.entity.OrderVO">
+		select *
+		from `order`
+		where userId = #{userId}
+		order by register_date desc
+	</select>
+</mapper>
