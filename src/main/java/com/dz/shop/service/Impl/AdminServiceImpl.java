@@ -74,10 +74,12 @@ public class AdminServiceImpl implements AdminService {
         String userStatus = changeUserStatus(MemberEnum.DELETE.name().toUpperCase());
         map.put("userId", userId);
         map.put("userStatus", userStatus);
+
         MemberVO byUserId = adminDAO.findByUserId(userId);
 
-        if(byUserId == null) return -1;
-        if(adminDAO.userStatus(map) < 0) return -1;
+        if(byUserId == null) throw new RuntimeException();
+        if(adminDAO.userStatus(map) < 0) throw new RuntimeException();
+        adminDAO.userStatus(map);
 
         return del_memberDAO.add(map);
     }
