@@ -28,28 +28,23 @@
     </c:forEach>
     </tbody>
 </table>
-<button id="updatePwd">주문하기</button>
+<form action="${pageContext.request.contextPath}/order/prepareOrder" id="form" method="post">
+    <input type="hidden" name="checkList" id="checkList">
+    <button id="orderButton">주문하기</button>
+</form>
 
 <script>
-    document.querySelector("#updatePwd").onclick = (event) => {
+    document.querySelector("#orderButton").onclick = (event) => {
         event.preventDefault();
-        let checkbox = $("input:checkbox[name=basketList]:checked");
-        let idList = "";
-        let nameList = "";
-        checkbox.each(function (i) {
-            let tr = checkbox.parent().parent().eq(i);
-            // console.log(tr);
-            let td = tr.children();
-            console.log(td);
-            let name = td.eq(3).text();
-            let userId = td.eq(4).text();
-
-            nameList += name + "/";
-            idList += userId + "/";
+        let query = 'input[name="basketList"]:checked';
+        let selectedEls = document.querySelectorAll(query);
+        let array = new Array();
+        selectedEls.forEach((el) => {
+           // result += el.getAttribute("data-id")+",";
+           array.push(el.getAttribute("data-id"))
         });
-
-        console.log(idList);
-        console.log(nameList);
+        document.querySelector("#checkList").value = array;
+        document.getElementById("form").submit();
     }
 </script>
 </body>

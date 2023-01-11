@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class BasketParam {
     String userId;
     String product_no;
+    int cnt;
 }

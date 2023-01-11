@@ -1,21 +1,13 @@
 package com.dz.shop.Basket;
 
-import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BasketParam;
 import com.dz.shop.service.BasketService;
-import com.dz.shop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.nio.charset.StandardCharsets;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +19,8 @@ public class BasketAPI {
     BasketService basketService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public Map<String, Object> basket(@RequestParam("no") String no, HttpServletResponse response, HttpSession session) {
-        System.out.println("no = " + no);
+    public Map<String, Object> basket(@RequestParam("no") String no, HttpSession session) {
+        logger.info("BasketAPI.basket");
 
         BasketParam basketParam = BasketParam.builder()
                 .product_no(no)
@@ -50,19 +42,59 @@ public class BasketAPI {
     }
 
     @RequestMapping(value = "/del", method = RequestMethod.GET)
-    public String del(@RequestParam("no") String no, HttpSession session, Model model){
+    public Map<String, Object> del(@RequestParam("no") String no, HttpSession session){
         String userId = (String) session.getAttribute("sessionUserId");
         BasketParam basketParam = BasketParam.builder()
                 .userId(userId)
                 .product_no(no)
                 .build();
 
-        basketService.del(basketParam);
+        long result = basketService.del(basketParam);
 
-        // 제품이름, 제품가격, basektvo 갯수
+        Map<String, Object> resultMap = new HashMap<>();
+        if(result > 0) {
+            resultMap.put("status", true);
+        }else{
+            resultMap.put("status", false);
+        }
 
-        model.addAttribute("list", list);
+        return resultMap;
+    }
 
-        return "basket/list";
+    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    public Map<String, Object> edit(
+            @RequestBody BasketParam basketParam,
+            @RequestParam("type") String type,
+            HttpSession session){
+        String userId = (String) session.getAttribute("sessionUserId");
+        int cnt = basketParam.getCnt();
+        if(type.equals("up")){
+            cnt += 1;
+        }else if(type.equals("down")){
+            cnt -= 1;
+        }
+        basketParam.setCnt(cnt);
+        basketParam.setUserId(userId);
+
+        long result = basketService.edit(basketParam);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        if(result > 0) {
+            resultMap.put("status", true);
+        }else{
+            resultMap.put("status", false);
+        }
+
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/prepareOrder", method = RequestMethod.POST)
+    public Map<String, Object> prepareOrder(HttpServletRequest request
+            ){
+
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("href", request.getContextPath()+"/order/list");
+
+        return resultMap;
     }
 }
