@@ -31,13 +31,14 @@ public class PopularityServiceImpl implements PopularityService {
         String bno = popularityParam.getBno();
         String clickedType = popularityParam.getType();
         String user = popularityParam.getUserId();
+
         Popularity popularity = popularityDAO.findByBnoAndUserIdAndIsDelete(popularityParam);
-        Map<String, Object> resultMap = new HashMap<>();
+
         ProductVO product = adminProductDAO.findByNo(bno);
         int like_count = product.getLike_count();
         int dislike_count = product.getDislike_count();
 
-        // 해당 타입의 좋아요, 싫어요 갯수를 늘려줌
+        Map<String, Object> resultMap = new HashMap<>();
 
         // 내가 좋아요, 싫어요 한 내역이 없으면
         if(popularity == null){
