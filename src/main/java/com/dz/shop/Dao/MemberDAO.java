@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 import com.dz.shop.Page.BoardParam;
 import com.dz.shop.entity.MemberVO;
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Mapper;
 
-@Component
+@Mapper
 public interface MemberDAO {
 	List<MemberVO> memberList(BoardParam boardParam);
 	long listSize(String search);
