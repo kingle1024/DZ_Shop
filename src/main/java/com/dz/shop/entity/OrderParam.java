@@ -12,8 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class OrderParam {
-    private String checkList;
+    private String checkNoList;
     private String userId;
+    private String address;
+    private String tel1;
+    private String tel2;
+    private String tel3;
+    private String receiver;
     private String sheet;
     private List<String> stringList;
 }

@@ -17,8 +17,13 @@ public class OrderVO {
     private int price;
     private int cnt;
     private String userId;
+    private String receiver;
     private String status;
+    private String tel1;
+    private String tel2;
+    private String tel3;
     private int product_no;
     private long order_number;
+    private String address;
     private LocalDateTime register_date;
 }

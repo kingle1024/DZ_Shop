@@ -31,28 +31,30 @@ public class OrderAPI {
     ) {
         logger.info("OrderAPI.add");
         String userId = (String) session.getAttribute("sessionUserId");
-        System.out.println("map.get(\"checkList\") = " + map.get("checkList"));
-        List<String> checkList = (List<String>) map.get("checkList");
+        List<String> checkList = (List<String>) map.get("checkNoList");
+
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < checkList.size(); i++) {
             sb.append(checkList.get(i));
             if (i != checkList.size() - 1) sb.append(",");
         }
 
+        System.out.println("map = " + map);
+
         OrderParam orderParam = OrderParam.builder()
-                .checkList(sb.toString())
+                .checkNoList(sb.toString())
                 .userId(userId)
+                .receiver((String) map.get("receiver"))
+                .tel1((String) map.get("tel1"))
+                .tel2((String) map.get("tel2"))
+                .tel3((String) map.get("tel3"))
+                .address((String) map.get("address"))
                 .build();
 
         List<Map<String, Object>> prepareOrderList = orderService.list(orderParam);
-        System.out.println("prepareOrderList = " + prepareOrderList);
-        // 결제 대상 목록 추가
 
-        // 읽어오기 /api/order/add
 
-        // 추가하기
-        // 목록 제거
-        orderService.add(prepareOrderList);
+        orderService.add(prepareOrderList, orderParam);
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("status", true);

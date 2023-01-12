@@ -6,16 +6,16 @@
 <mapper namespace="com.dz.shop.Dao.OrderDAO">
 	<insert id="add">
 		insert into `order` (
-		    title, product_no, price, cnt,
+		    title, product_no, price, cnt, receiver, address, tel1, tel2, tel3,
 			userId, status, order_number, register_date
 		)values (
-			 #{title}, #{product_no}, #{price}, #{cnt},
+			 #{title}, #{product_no}, #{price}, #{cnt}, #{receiver}, #{address}, #{tel1}, #{tel2}, #{tel3},
 			 #{userId}, #{status}, #{order_number}, now()
 		 )
 	</insert>
 
 	<select id="maxNum" resultType="long">
-		select max(product_no)
+		select max(order_number)
 		from `order`
 	</select>
 

@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface OrderService {
     List<Map<String, Object>> list(OrderParam userId);
-    long add(List<Map<String, Object>> list);
+    long add(List<Map<String, Object>> list, OrderParam orderParam);
 
     List<OrderVO> mylist(String userId);
 }
