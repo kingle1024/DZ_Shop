@@ -43,7 +43,7 @@ public class BoardParam {
             l_pageIndex = 1;
         }
         if(pageSize < 10){
-            pageSize = 10;
+            pageSize = 9;
         }
     }
 
