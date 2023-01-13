@@ -1,6 +1,7 @@
 package com.dz.shop.Dao;
 
 import com.dz.shop.entity.BasketParam;
+import com.dz.shop.entity.BasketVO;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,4 +17,6 @@ public interface BasketDAO {
     long edit(BasketParam basketParam);
 
     List<Map<String, Object>> preOrderList(Map<String, Object> map);
+
+    BasketVO findByNo(String no);
 }

@@ -46,7 +46,7 @@ public class BasketAPI {
         String userId = (String) session.getAttribute("sessionUserId");
         BasketParam basketParam = BasketParam.builder()
                 .userId(userId)
-                .product_no(no)
+                .no(no)
                 .build();
 
         long result = basketService.del(basketParam);
@@ -61,16 +61,17 @@ public class BasketAPI {
         return resultMap;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public Map<String, Object> edit(
             @RequestBody BasketParam basketParam,
-            @RequestParam("type") String type,
             HttpSession session){
+        System.out.println("basketParam = " + basketParam);
+
         String userId = (String) session.getAttribute("sessionUserId");
         int cnt = basketParam.getCnt();
-        if(type.equals("up")){
+        if(basketParam.getType().equals("plus")){
             cnt += 1;
-        }else if(type.equals("down")){
+        }else if(basketParam.getType().equals("minus")){
             cnt -= 1;
         }
         basketParam.setCnt(cnt);
@@ -79,6 +80,7 @@ public class BasketAPI {
         long result = basketService.edit(basketParam);
 
         Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("cnt", cnt);
         if(result > 0) {
             resultMap.put("status", true);
         }else{

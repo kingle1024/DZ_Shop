@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class BasketParam {
-    String userId;
-    String product_no;
-    int cnt;
+    private String no;
+    private String userId;
+    private String product_no;
+    private String type;
+    private int cnt;
 }
