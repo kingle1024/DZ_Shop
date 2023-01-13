@@ -1,6 +1,7 @@
 package com.dz.shop.admin.product;
 
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.Utility.CustomUtil;
 import com.dz.shop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @RestController
@@ -43,17 +43,12 @@ public class ProductAPI {
         try {
             System.out.println("API ProductController.edit");
             multipartRequest.setCharacterEncoding("UTF-8");
-            Map<String, Object> map = new HashMap<>();
-            Enumeration<?> e = multipartRequest.getParameterNames();
-            while (e.hasMoreElements()) {
-                String key = (String) e.nextElement();
-                map.put(key, new String(multipartRequest.getParameter(key).getBytes("ISO8859-1"), StandardCharsets.UTF_8));
-            }
+            Map<String, Object> map = CustomUtil.getStringObjectMap(multipartRequest);
+
             map.put("writer", session.getAttribute("sessionName"));
             logger.info("api map -> " + map);
             String no = String.valueOf(productService.add(map));
             productService.fileAdd(no, multipartRequest.getFileMap());
-
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -64,6 +59,7 @@ public class ProductAPI {
         resultMap.put("url", multipartRequest.getContextPath()+"/admin/product/list");
         return resultMap;
     }
+
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public Map<String, Object> edit(
             MultipartHttpServletRequest multipartRequest
@@ -71,19 +67,13 @@ public class ProductAPI {
         try {
             System.out.println("API ProductController.edit");
             multipartRequest.setCharacterEncoding("UTF-8");
-            Map<String, Object> map = new HashMap<>();
-            Enumeration<?> e = multipartRequest.getParameterNames();
-            while (e.hasMoreElements()) {
-                String key = (String) e.nextElement();
-                map.put(key, new String(multipartRequest.getParameter(key).getBytes("ISO8859-1"), StandardCharsets.UTF_8));
-            }
+            Map<String, Object> map = CustomUtil.getStringObjectMap(multipartRequest);
             logger.info("api map -> " + map);
             productService.edit(map);
 //            productService.fileDel(map);
             // new thumbnail
             String no = (String) map.get("no");
             productService.fileAdd(no, multipartRequest.getFileMap());
-
 
         }catch (Exception e){
             e.printStackTrace();
@@ -98,7 +88,6 @@ public class ProductAPI {
 
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     public Map<String, Object> del(
-            HttpServletRequest request,
             @RequestBody Map<String, Object> map
     ) {
         System.out.println("map = " + map);
