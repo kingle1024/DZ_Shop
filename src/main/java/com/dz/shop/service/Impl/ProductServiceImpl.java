@@ -83,7 +83,7 @@ public class ProductServiceImpl implements ProductService {
         if(adminProductDAO.add(product) > 0){
             return adminProductDAO.maxNo();
         }
-        return -1;
+        throw new RuntimeException();
     }
 
 
@@ -111,7 +111,7 @@ public class ProductServiceImpl implements ProductService {
                             .number(Integer.parseInt(no))
                             .org_name(strValue.getOriginalFilename())
                             .real_name(realName+"."+fileFormat)
-                            .content_type(contentType+"."+fileFormat)
+                            .content_type(contentType)
                             .length((int)strValue.getSize())
                             .register_date(LocalDateTime.now())
                             .build();
