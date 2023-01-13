@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+           "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dz.shop.Dao.ChatDAO">
+	<insert id="add">
+		insert into chat(
+		    chat_room
+		)values (
+		         #{chat_room}
+						)
+	</insert>
+	<select id="list" resultType="com.dz.shop.entity.ChatMessage">
+		select * from chat
+	</select>
+	<select id="isChatRoom" resultType="com.dz.shop.entity.ChatRoomVO">
+		select * from chat where chat_room = #{sessionId}
+	</select>
+
+</mapper>
