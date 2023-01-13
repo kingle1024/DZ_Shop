@@ -8,8 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/admin/order")
@@ -19,10 +18,19 @@ public class AdminOrderController {
 	AdminOrderService adminOrderService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(HttpServletRequest request, Model model){
+	public String list(Model model){
 		logger.info("AdminOrderController.list");
 		model.addAttribute("list", adminOrderService.list());
 
 		return "admin/order/list";
+	}
+
+	@RequestMapping(value = "/detail", method = RequestMethod.GET)
+	public String detail(
+			@RequestParam("no") String no, Model model
+	){
+		model.addAttribute("detail", adminOrderService.detail(no));
+
+		return "admin/order/detail";
 	}
 }

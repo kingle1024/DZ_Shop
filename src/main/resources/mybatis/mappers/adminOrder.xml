@@ -9,4 +9,14 @@
 		from `order`
 		order by register_date desc
 	</select>
+	<update id="updateDeliveryStatus">
+		update `order`
+		set status = #{status}
+		where `no` = #{no}
+	</update>
+	<select id="detail" resultType="com.dz.shop.entity.OrderVO">
+		select *
+		from `order`
+		where `no` = #{no}
+	</select>
 </mapper>
