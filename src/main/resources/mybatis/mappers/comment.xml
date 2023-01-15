@@ -8,7 +8,7 @@
 		select 
 			*
 		from comment
-		where `no` = parent_no and product_no = #{search}
+		where product_no = #{search}
 		order by parent_no desc, no
 		limit #{pageStart}, #{pageEnd}
 	</select>

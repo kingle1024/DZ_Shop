@@ -1,9 +1,10 @@
-package com.dz.shop.service;
+package com.dz.shop.service.Impl;
 
 import com.dz.shop.Dao.MailDAO;
 import com.dz.shop.Dao.MemberDAO;
 import com.dz.shop.entity.MailVO;
 import com.dz.shop.entity.MemberVO;
+import com.dz.shop.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.mail.internet.MimeMessage;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;

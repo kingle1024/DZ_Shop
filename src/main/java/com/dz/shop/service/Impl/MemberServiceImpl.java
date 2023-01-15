@@ -15,10 +15,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+    private final MemberDAO memberDAO;
+
     @Autowired
-    private MemberDAO memberDAO;
+    public MemberServiceImpl(MemberDAO memberDAO) {
+        this.memberDAO = memberDAO;
+    }
 
     public PageUtil pageUtil(String search, String pageIndex, String type){
         BoardParam param = BoardParam.builder()
@@ -53,6 +56,11 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public MemberVO dupUidaCheck(String userId) {
+        return memberDAO.findById(userId);
+    }
+
+    @Override
+    public MemberVO findByUserId(String userId) {
         return memberDAO.findById(userId);
     }
 

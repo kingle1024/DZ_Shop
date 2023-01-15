@@ -8,10 +8,10 @@
 </head>
 <body>
 <h2>주문 댓글 상세보기</h2>
-<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>
-${comment}
+<%--<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>--%>
+<%--${comment}--%>
 <br/>
-${detail}
+<%--${detail}--%>
 <h3>문의</h3>
 <table class="table">
     <tr>

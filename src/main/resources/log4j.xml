@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.dz.shop">
-		<level value="info" />
+		<level value="DEBUG" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

@@ -1,6 +1,7 @@
 package com.dz.shop.service;
 
 import com.dz.shop.Dao.MailDAO;
+import com.dz.shop.service.Impl.MailServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
