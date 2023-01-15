@@ -1,5 +1,6 @@
 package com.dz.shop.member;
 
+import com.dz.shop.Utility.SessionAttribute;
 import com.dz.shop.entity.MailVO;
 import com.dz.shop.entity.MemberVO;
 import com.dz.shop.service.MailService;
@@ -41,10 +42,10 @@ public class MemberAPI {
             return map;
         }
 
-        session.setAttribute("isLogin", true);
-        session.setAttribute("sessionUserId", member.getUserId());
-        session.setAttribute("sessionName", member.getName());
-        System.out.println("member = " + member.getName());
+        session.setAttribute(SessionAttribute.userid.toString(), member.getUserId());
+        session.setAttribute(SessionAttribute.name.toString(), member.getName());
+        if(member.isAdmin()) session.setAttribute(SessionAttribute.admin.toString(), true);
+
         map.put("status", true);
         map.put("href", request.getContextPath());
 
@@ -77,7 +78,7 @@ public class MemberAPI {
     ){
         System.out.println("MemberAPI.insert");
         long result = memberService.insert(member);
-        mailService.welcomSendMail(member);
+        if(result > 0) mailService.welcomSendMail(member);
 
         Map<String, Object> resultMap = new HashMap<>();
         if (result < 0) {

@@ -1,6 +1,7 @@
 package com.dz.shop.Product;
 
 import com.dz.shop.Page.PageUtil;
+import com.dz.shop.Utility.SessionAttribute;
 import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.PopularityService;
@@ -43,8 +44,7 @@ public class ClientProductController {
         List<BoardFile> files = productService.fileList(no);
         System.out.println("files = " + files);
         model.addAttribute("files", files);
-
-        String userId = (String) session.getAttribute("sessionUserId");
+        String userId = (String) session.getAttribute(SessionAttribute.userid.toString());
         String myStatus = popularityService.findByBnoAndUserIdAndIsDelete(no, userId);
         model.addAttribute("myStatus", myStatus);
 
@@ -56,8 +56,8 @@ public class ClientProductController {
             @RequestParam("no") String no, HttpServletResponse response) throws IOException {
         ProductVO product = productService.getProduct(no);
         if(product != null){
-            response.setHeader("Cache-Control", "no-cache");
-            response.addHeader("Content-disposition", "attachment; fileName=" + product.getThumbnail());
+            response.setHeader("Cache-Control", "max-age=31536000");
+
             BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
             BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(product.getThumbnail())));
 

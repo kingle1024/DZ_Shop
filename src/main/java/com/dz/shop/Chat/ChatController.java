@@ -1,6 +1,7 @@
 package com.dz.shop.Chat;
 
 import com.dz.shop.Utility.ChatUtil;
+import com.dz.shop.Utility.SessionAttribute;
 import com.dz.shop.entity.ChatMessage;
 import com.dz.shop.service.ChatService;
 import org.slf4j.Logger;
@@ -25,7 +26,7 @@ public class ChatController {
     public String list(HttpSession session, HttpServletRequest request, HttpServletResponse response, Model model){
         logger.info("ChatController.list");
         String chatSessionId = ChatUtil.getSessionIdFromCookie(request, response);
-        session.setAttribute("sessionChat", chatSessionId);
+        session.setAttribute(SessionAttribute.chat.toString(), chatSessionId);
 
         model.addAttribute("roomName", chatSessionId);
         ChatMessage chatMessage = ChatMessage.builder()
