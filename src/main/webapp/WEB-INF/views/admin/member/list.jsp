@@ -13,35 +13,35 @@
     </script>
 </head>
 <body>
-<form name="searchForm" id="searchForm" action="" method="get">
-    <label for="search"></label><input type="text" placeholder="검색할 제목 입력" id="search" name="search" autofocus>
-    <input type="hidden" id="type" name="type" value="${type}">
-    <input type="hidden" id="pageIndex" name="pageIndex" >
-    <input type="hidden" id="pageSize" name="pageSize">
-    <input type="submit" value="검색" value="${param.search}">
-</form>
-
-<table>
+<div style="margin-left: auto; margin-right: 0;">
+    <form name="searchForm" id="searchForm" action="" method="get">
+        <label for="search"></label><input type="text" placeholder="검색할 제목 입력" id="search" name="search" autofocus>
+    <%--    <input type="hidden" id="type" name="type" value="${type}">--%>
+        <input type="hidden" id="pageIndex" name="pageIndex" >
+        <input type="hidden" id="pageSize" name="pageSize">
+        <input type="submit" value="검색" value="${param.search}">
+    </form>
+</div>
+<table class="table">
     <thead>
         <tr>
-            <td>아이디</td>
-            <td>이름</td>
-            <td>회원 상태 변경</td>
+            <th scope="col">아이디</th>
+            <th scope="col">이름</th>
+            <th scope="col">회원 상태 변경</th>
+            <th scope="col">삭제</th>
         </tr>
     </thead>
     <tbody id="tbody">
     <c:forEach var="list" items="${list }">
         <tr>
-            <td>${list.userId}</td>
+            <th scope="row">${list.userId}</th>
             <td>${list.name}</td>
-            <td>${list.userStatus}</td>
             <td>
-                ${list.userStatus}
-                <button class="userStatusUids" data-status="${list.userStatus}" data-uid="${list.userId}">
+                <button class="userStatusUids btn btn-warning" data-status="${list.userStatus}" data-uid="${list.userId}">
                     ${list.userStatus == 'STOP' ? '사용' : '미사용'}으로 변경
                 </button>
-                <button class="userDel" data-uid="${list.userId}">삭제</button>
             </td>
+            <td><button class="userDel btn btn-danger" data-uid="${list.userId}">삭제</button></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -70,8 +70,15 @@
                 let member = jsonResult.list;
                 for(let key in member){
                     html += "<tr>";
-                    html += "<td>" + member[key].userId + "</td>";
+                    html += "<th scope='col'>" + member[key].userId + "</th>";
                     html += "<td>" + member[key].name + "</td>";
+                    let userStatusTxt = member[key].userStatus == 'STOP' ? '사용' : '미사용';
+                    html += "<td>"
+                        + "<button class='userStatusUids btn btn-warning' data-status='"+member[key].userStatus+"' data-uid='"+member[key].userId+"'>"
+                        + userStatusTxt +"으로 변경"
+                        + "</button>"
+                        + "</td>";
+                    html += '<td><button class="userDel btn btn-danger" data-uid="'+member[key].userId+'">삭제</button></td>';
                     html += "</tr>";
                 }
                 document.querySelector("#tbody").innerHTML = html;
