@@ -4,38 +4,42 @@
            "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.dz.shop.Dao.BasketDAO">
-
 	<select id="list" resultType="HashMap">
 		select *
 		from product_basket pb
-				 left join product p on pb.product_no = p.no
-			and pb.userId = #{userId} and pb.delete_yn = false;
+				 inner join product p on pb.product_no = p.no
+			and pb.userId = #{userId} and pb.delete_yn = 0;
 	</select>
 
 	<select id="preOrderList" resultType="HashMap" >
-		select *
+		select p.*, pb.no as pb_no, pb.cnt as pb_cnt, pb.userId as pb_userId
 		from product p
 				 inner join product_basket pb on pb.product_no = p.no
-			and product_no in (${ids})
+			and pb.no in (${checkNoList})
 			and pb.userId = #{userId}
 	</select>
 
+	<select id="findByNo">
+		select *
+		from product_basket
+		where no = #{no}
+	</select>
 
 	<insert id="add">
 		insert into product_basket(
-			product_no, userId, cnt, register_date, update_date
+			product_no, userId, cnt, register_date, update_date, delete_yn
 		)values (
-			#{product_no}, #{userId}, 1, now(), now()
+			#{product_no}, #{userId}, 1, now(), now(), 0
 		)
 	</insert>
 	<update id="del">
 		update product_basket
-		SET delete_yn = 0;
-		WHERE userId = #{userId} and product_no = #{product_no}
+		SET delete_yn = true
+		WHERE `no` = #{no} and userId= #{userId}
 	</update>
 	<update id="edit">
 		update product_basket
-		SET cnt = #{cnt} and update_date = now()
-		WHERE userId = #{userId} and product_no = #{product_no}
+		SET cnt = #{cnt}, update_date = now()
+		WHERE userId = #{userId} and `no` = #{no}
 	</update>
 </mapper>

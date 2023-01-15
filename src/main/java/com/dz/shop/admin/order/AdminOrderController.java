@@ -1,6 +1,7 @@
 package com.dz.shop.admin.order;
 
 import com.dz.shop.service.AdminOrderService;
+import com.dz.shop.Delivery.DeliveryStatusService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ public class AdminOrderController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminOrderController.class);
 	@Autowired
 	AdminOrderService adminOrderService;
+	@Autowired
+	DeliveryStatusService deliveryStatusService;
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public String list(Model model){
 		logger.info("AdminOrderController.list");
 		model.addAttribute("list", adminOrderService.list());
+		model.addAttribute("deliveryStatusList", deliveryStatusService.list());
 
 		return "admin/order/list";
 	}
