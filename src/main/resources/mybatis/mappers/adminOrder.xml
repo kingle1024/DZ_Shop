@@ -19,4 +19,8 @@
 		from `order`
 		where `no` = #{no}
 	</select>
+	<select id="deliveryStatus" >
+		select * from delivery_status
+		order by 'no' desc;
+	</select>
 </mapper>
