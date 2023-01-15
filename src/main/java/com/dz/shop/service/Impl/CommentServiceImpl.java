@@ -48,11 +48,10 @@ public class CommentServiceImpl implements CommentService {
     public CommentVO add(CommentVO comment) {
         comment.setRegister_date(LocalDateTime.now());
         comment.setDelete_yn(false);
-        comment.setWriter("name");
-        comment.setWriter_id("id");
+        comment.setWriter(comment.getWriter());
+        comment.setWriter_id(comment.getWriter_id());
 
         long result = commentDAO.add(comment);
-        System.out.println("result = " + result);
         System.out.println("comment.getParent_no() = " + comment.getParent_no());
         if(result > 0 && comment.getParent_no() == null) {
             long commentNo = commentDAO.maxNo();
@@ -69,5 +68,23 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public CommentVO getProduct(String no) {
         return commentDAO.findByNo(no);
+    }
+
+    @Override
+    public List<CommentVO> commentList() {
+        return commentDAO.commentList();
+    }
+
+    @Override
+    public List<CommentVO> findByParentNo(String parentNo) {
+        return commentDAO.findByParentNo(parentNo);
+    }
+
+    @Override
+    @Transactional
+    public long reply(CommentVO commentVO) {
+        if(commentDAO.updateStatusByNo(commentVO.getParent_no()) < 0) throw new RuntimeException();
+        if(commentDAO.add(commentVO) < 0) throw new RuntimeException();
+        return 1;
     }
 }

@@ -8,9 +8,14 @@
 		select 
 			*
 		from comment
-		where product_no = #{search}
+		where `no` = parent_no and product_no = #{search}
 		order by parent_no desc, no
 		limit #{pageStart}, #{pageEnd}
+	</select>
+	<select id="commentList" resultType="com.dz.shop.entity.CommentVO">
+		select * from comment
+		where `no` = parent_no
+		order by no desc
 	</select>
 
 	<select id="listSize" parameterType="String" resultType="long">
@@ -21,9 +26,9 @@
 
 	<insert id="add">
 		insert into comment(
-			comment, product_no, parent_no, writer, writer_id, register_date, update_date, delete_yn
+			comment, product_no, parent_no, writer, writer_id, register_date, update_date, delete_yn, status
 		)values (
-			#{comment}, #{product_no}, #{parent_no}, #{writer}, #{writer_id}, #{register_date}, #{update_date}, #{delete_yn}
+			#{comment}, #{product_no}, #{parent_no}, #{writer}, #{writer_id}, #{register_date}, #{update_date}, #{delete_yn}, #{status}
 	    )
 	</insert>
 
@@ -37,6 +42,12 @@
 		where no = #{no}
 	</select>
 
+	<select id="findByParentNo" resultType="com.dz.shop.entity.CommentVO">
+		select *
+		from comment
+		where parent_no = #{parent_no} and `no` != parent_no
+	</select>
+
 	<update id="edit">
 		UPDATE comment
 		SET comment = #{comment},
@@ -47,5 +58,11 @@
 		    update_date = #{update_date},
 		    delete_yn = #{delete_yn}
 		WHERE no = #{no}
+	</update>
+
+	<update id="updateStatusByNo">
+		UPDATE comment
+		SET status = 'DONE'
+		where `no` = #{parent_no}
 	</update>
 </mapper>

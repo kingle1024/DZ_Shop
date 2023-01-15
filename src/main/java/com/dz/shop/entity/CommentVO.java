@@ -18,7 +18,8 @@ public class CommentVO {
     private String comment;
     private String writer;
     private String writer_id;
-    public LocalDateTime register_date;
+    private LocalDateTime register_date;
     private LocalDateTime update_date;
     private boolean delete_yn;
+    private String status;
 }
