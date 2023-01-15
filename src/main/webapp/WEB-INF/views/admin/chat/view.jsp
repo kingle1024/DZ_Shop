@@ -2,11 +2,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
 
+
 <html>
 <head>
 	<script type="text/javascript" src="<c:url value='/resources/js/sockjs-0.3.4.js'/>"></script>
 	<script type="text/javascript">
-		let roomName = '${roomName}';
+		let roomName = '${toJoinRoom}';
 		window.addEventListener("load", e => {
 			document.querySelector("#mForm").addEventListener("submit", e => {
 				e.preventDefault();
@@ -18,8 +19,7 @@
 				let p = document.createElement("p");
 				p.innerHTML = "me > " +message.value;
 				data.append(p);
-				console.log("client send ");
-				console.log(JSON.stringify(params));
+
 				sock.send(JSON.stringify(params));
 				// sock.send(param);
 				message.value = '';
@@ -46,9 +46,7 @@
 				console.log("in");
 				let p = document.createElement("p");
 				p.innerHTML = evt.data;
-
-				data.append("[관리자] "+response.message);
-
+				data.append(p);
 			}
 		}
 
@@ -60,14 +58,17 @@
 	</script>
 </head>
 <body>
-<h2>일반인 채팅 - ${roomName}</h2>
-<%--<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>--%>
+<h2>관리자 채팅 - ${toJoinRoom}</h2>
+<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>
 
 <form name="mForm" id="mForm">
 	<input type="text" id="message" />
 	<input type="submit" value="전송" />
 </form>
 <div id="data"></div>
+
+
+
 
 </body>
 </html>

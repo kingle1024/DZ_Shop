@@ -40,7 +40,7 @@
 		sock.onmessage = evt => {
 			console.log("admin ")
 			let response = JSON.parse(evt.data);
-			document.getElementById("log").innerHTML += response;
+			// document.getElementById("log").innerHTML += response;
 			console.log(response);
 			console.log(response.roomName +" : " +roomName);
 			document.getElementById(response.roomName).innerHTML += "[상대방] "+response.message +"<br/>";
@@ -58,7 +58,7 @@
 <h1>채팅방 목록</h1>
 <div id="data"></div>
 
-<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>
+<%--<img src="https://image.fmkorea.com/files/attach/new2/20220520/6042994/3564131214/4636129222/74204d8ac6546bf135bf215f55877286.png"><br/>--%>
 
 <c:forEach var="list" items="${list}">
 	<a href="${pageContext.request.contextPath}/admin/chat/view?chatRoom=${list.chat_room}">${list.chat_room}</a> <br/>
@@ -75,8 +75,8 @@
 </c:forEach>
 
 <form name="mForm" id="mForm">
-	<input type="text" id="message" />
-	<input type="submit" value="전송" />
+<%--	<input type="text" id="message" />--%>
+<%--	<input type="submit" value="전송" />--%>
 </form>
 
 <div id="log"></div>
