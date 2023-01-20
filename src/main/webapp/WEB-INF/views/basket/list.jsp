@@ -23,8 +23,8 @@
         <td><img width="50px" height="300px" class="card-img-top" src="${pageContext.request.contextPath}/product/thumbnail.do?no=${list.product_no}" alt=" " /></td>
         <td>${list.title}</td>
         <td>
-            <button class="editCnt1" data-type="minus" data-id="${list.no}" data-cnt="${list.cnt}">-</button> <span class="cnt">${list.cnt}</span>
-            <button class="editCnt2" data-type="plus" data-id="${list.no}" data-cnt="${list.cnt}">+</button>
+            <button class="minusCnt" data-type="minus" data-product="${list.product_no}" data-id="${list.no}" data-cnt="${list.cnt}">-</button> <span class="cnt">${list.cnt}</span>
+            <button class="plusCnt" data-type="plus" data-product="${list.product_no}" data-id="${list.no}" data-cnt="${list.cnt}">+</button>
         </td>
         <td><span name="price">${list. cnt * list.price}</span> <button class="delButton" data-id="${list.no}"> X </button></td>
     </tr>
@@ -50,20 +50,25 @@
     }
 </script>
 <script>
-    let editButton1 = document.querySelector(".editCnt1");
-    let editButton2 = document.querySelector(".editCnt2");
-    edit(editButton1);
-    edit(editButton2);
+    let minusCnt = document.querySelector(".minusCnt");
+    let plusCnt = document.querySelector(".plusCnt");
+    edit(minusCnt);
+    edit(plusCnt);
     function edit(editButton){
         editButton.addEventListener("click", (e) => {
             let link = e.target;
             let no = link.getAttribute("data-id");
             let type = link.getAttribute("data-type");
-            let cnt = document.querySelector(".editCnt1").parentNode.children.item(1);
+            let product_no = link.getAttribute("data-product");
+            console.log("===========");
+            console.log(product_no);
+            let cnt = document.querySelector(".minusCnt").parentNode.children.item(1);
+
             let params = {
                 'no' : no,
                 'type' : type,
-                'cnt' : cnt.innerHTML
+                'cnt' : cnt.innerHTML,
+                'product_no' : product_no
             }
             console.log(params);
 
@@ -79,6 +84,8 @@
                     console.log(jsonResult);
 
                     cnt.innerHTML = jsonResult.cnt;
+                    document.querySelector(".minusCnt").parentNode.parentNode.children.item(4).children.item(0).innerHTML = jsonResult.price;
+
                 });
         });
     }

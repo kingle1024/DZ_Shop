@@ -1,7 +1,10 @@
 package com.dz.shop.Basket;
 
 import com.dz.shop.entity.BasketParam;
+import com.dz.shop.entity.BasketVO;
+import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.BasketService;
+import com.dz.shop.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ public class BasketAPI {
     private static final Logger logger = LoggerFactory.getLogger(BasketAPI.class);
     @Autowired
     BasketService basketService;
+    @Autowired
+    ProductService productService;
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public Map<String, Object> basket(@RequestParam("no") String no, HttpSession session) {
@@ -77,10 +82,15 @@ public class BasketAPI {
         basketParam.setCnt(cnt);
         basketParam.setUserId(userId);
 
+
         long result = basketService.edit(basketParam);
+
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("cnt", cnt);
+        ProductVO product = productService.getProduct(basketParam.getProduct_no());
+        resultMap.put("price", product.getPrice() * cnt);
+
         if(result > 0) {
             resultMap.put("status", true);
         }else{
