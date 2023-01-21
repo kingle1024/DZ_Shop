@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -86,5 +87,10 @@ public class CommentServiceImpl implements CommentService {
         if(commentDAO.updateStatusByNo(commentVO.getParent_no()) < 0) throw new RuntimeException();
         if(commentDAO.add(commentVO) < 0) throw new RuntimeException();
         return 1;
+    }
+
+    @Override
+    public long del(Map<String, Object> map) {
+        return commentDAO.del(map);
     }
 }

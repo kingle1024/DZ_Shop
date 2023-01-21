@@ -4,6 +4,7 @@ import com.dz.shop.Page.BoardParam;
 import com.dz.shop.entity.CommentVO;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CommentDAO {
@@ -19,4 +20,6 @@ public interface CommentDAO {
     List<CommentVO> findByParentNo(String parentNo);
 
     long updateStatusByNo(String parent_no);
+
+    long del(Map<String, Object> map);
 }

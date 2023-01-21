@@ -1,6 +1,7 @@
 
 package com.dz.shop.comment;
 
+import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.CommentVO;
 import com.dz.shop.service.MemberService;
 import org.slf4j.Logger;
@@ -80,6 +81,39 @@ public class CommentAPI {
 
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("list", comments);
+
+        return resultMap;
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Map<String, Object> search(
+            @RequestParam String search,
+            @RequestParam String pageIndex
+    ){
+        System.out.println("CommentAPI.search");
+        Map<String, Object> map = new HashMap<>();
+        System.out.println("search = " + search);
+        System.out.println("pageIndex = " + pageIndex);
+        PageUtil pageUtil = commentService.pageUtil(search, pageIndex, "comment");
+
+        map.put("list", pageUtil.getList());
+        map.put("pager", pageUtil.paper());
+
+        return map;
+    }
+
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    public Map<String, Object> del(
+            @RequestBody Map<String, Object> map
+    ){
+        long result = commentService.del(map);
+
+        Map<String, Object> resultMap = new HashMap<>();
+        if(result > 0) {
+            resultMap.put("status", true);
+        }else{
+            resultMap.put("status", false);
+        }
 
         return resultMap;
     }

@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <script>
     window.onload = function (){
         const myState = '${myStatus}';
@@ -61,6 +63,7 @@
     <c:forEach var="detail" items="${cs}">
             <tr>
                 <td>
+                    <c:if test="${detail.no == detail.parent_no}">
                     <button onclick="showDetail(this, '${detail.parent_no}')">
                         <c:choose>
                             <c:when test="${detail.status eq 'READY'}">
@@ -70,10 +73,11 @@
                                 답변완료
                             </c:when>
                             <c:otherwise>
-                                미답변2
+                                미답변
                             </c:otherwise>
                         </c:choose>
                     </button>
+                    </c:if>
                 </td>
                 <td>${detail.comment}</td>
                 <td><c:if test="${detail.parent_no != detail.no }">ㄴ</c:if>
@@ -82,17 +86,23 @@
                 </td>
                 <td>${detail.register_date}</td>
                 <td>
-<%--                    <c:if test="${comment.parent_no == comment.no}">--%>
-<%--                    <button class="reply" data-id="${comment.no}">[답글]</button>--%>
-<%--                    </c:if>--%>
+                    <c:if test="${detail.writer_id == sessionUserId}">
+                        <button class="del" data-id="${detail.parent_no}">삭제</button>
+                    </c:if>
                 </td>
             </tr>
     </c:forEach>
     </tbody>
 </table>
+<div id="pager">${pager}</div>
 
 <div>
 
+<form name="searchForm" id="searchForm">
+    <input type="hidden" id="search" name="search" value="${cs[0].product_no}">
+    <input type="hidden" id="pageIndex" name="pageIndex" >
+    <input type="hidden" id="pageSize" name="pageSize">
+</form>
 <textarea <c:if test="${isLogin != true}">disabled</c:if> class="form-control" id="comment" rows="3"></textarea>
 <button id="add">문의하기</button>
 </div>
@@ -104,8 +114,6 @@
         fetch('${pageContext.request.contextPath}/api/comment/detail?parentNo='+parentNo)
             .then(response => response.json())
             .then(jsonResult => {
-                console.log("result");
-                // console.log(jsonResult.list);
                 let html = "";
                 // selectedEls.forEach((el) => {
                 //     array.push(el.getAttribute("data-id"))
@@ -126,29 +134,28 @@
     }
 </script>
 <script>
-    $(".reply").on("click", e => {
+    $(".del").on("click", e => {
         let link = e.target;
         let parent_no = link.getAttribute("data-id");
         console.log(parent_no);
         let param = {
-            'comment' : 'test',
             'parent_no' : parent_no,
             'product_no' : product_no.value
         }
-        console.log(param);
 
-        fetch('${pageContext.request.contextPath}/api/comment/add', {
+        fetch('${pageContext.request.contextPath}/api/comment/del', {
             method : 'POST',
             headers : {
                 'Content-Type' : 'application/json;charset=utf-8'
             },
             body: JSON.stringify(param)
         })
-        .then(response => response.json())
-        .then(jsonResult => {
-            // TODO 댓글 입력 폼 나와야함
-
-        });
+            .then(response => response.json())
+            .then(jsonResult => {
+                if(jsonResult.status) {
+                    e.target.parentNode.parentNode.remove();
+                }
+            });
     });
 
     $("#add").on("click", e => {
@@ -325,6 +332,52 @@
                 }else{
                     alert("장바구니 추가 실패");
                 }
+            });
+    }
+</script>
+<script>
+    function searchF(index){
+        let start = new Date();
+        let search = document.getElementById("search").value;
+        let pageIndex = document.getElementById("pageIndex").value;
+        if(index !== undefined){
+            pageIndex = index;
+        }
+
+        fetch('${pageContext.request.contextPath}/api/comment/search?search='+search+'&pageIndex='+pageIndex)
+            .then(response => response.json())
+            .then(jsonResult => {
+                $("#tbody").empty();
+                let html = "";
+                let member = jsonResult.list;
+                console.log("for in");
+                for(let key in member){
+                    console.log(member[key]);
+                    html += "<tr>";
+                    if(member[key].no == member[key].parent_no) {
+                        if(member[key].status === 'READY') {
+                            html += "<td> <button>미답변 </button></td>";
+                        }else{
+                            html += "<td> <button>답변완료</button></td>";
+                        }
+                    }else{
+
+                    }
+                    html += "<td>" + member[key].comment +"</td>";
+                    html += "<td>" + member[key].writer + "(" + member[key].writer_id+ ")"+"</td>";
+                    html += "<td>" + member[key].register_date +"</td>";
+
+                    html += "</tr>";
+                }
+                document.querySelector("#tbody").innerHTML = html;
+
+                html = jsonResult.pager;
+
+                $("#pager").empty();
+                document.querySelector("#pager").innerHTML = html;
+                let end = new Date();
+                console.log("실행기간 : ");
+                console.log(end-start);
             });
     }
 </script>
