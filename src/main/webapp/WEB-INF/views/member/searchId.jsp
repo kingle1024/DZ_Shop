@@ -8,12 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-    아이디 찾기 <br/>
+    <h2>아이디 찾기</h2> <br/>
 
-    name : <input type="text" name="searchId_name" id="searchId_name" value="엄지용"> <br/>
-    email : <input type="text" name="searchId_email" id="searchId_email" value="teran1024@naver.com"> <br/>
-
-    <input type="button" id="searchId" name="searchId" value="인증번호 받기">
+    <input type="text" name="searchId_name" id="searchId_name" value="" placeholder="이름"> <br/>
+    <input type="text" name="searchId_email" id="searchId_email" value="" placeholder="이메일"> <br/>
+    <br/>
+    <input type="button" class="btn btn-primary" id="searchId" name="searchId" value="아이디 찾기">
 <script>
     let idButton = document.querySelector("#searchId");
     idButton.onclick = (event) => {
