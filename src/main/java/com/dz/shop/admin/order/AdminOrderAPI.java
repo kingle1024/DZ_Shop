@@ -18,12 +18,11 @@ public class AdminOrderAPI {
     @Autowired
     AdminOrderService adminOrderService;
 
-    @RequestMapping(value = "/status", method = RequestMethod.POST)
+    @RequestMapping(value = "/status", method = RequestMethod.PUT)
     public Map<String, Object> status(
             @RequestBody Map<String, Object> map
     ){
         logger.info("AdminOrderAPI.status");
-        System.out.println("map = " + map);
         AdminOrderParam adminOrderParam = AdminOrderParam.builder()
                 .no((String) map.get("no"))
                 .status((String) map.get("status"))
