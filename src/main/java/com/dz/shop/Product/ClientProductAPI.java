@@ -1,5 +1,6 @@
 package com.dz.shop.Product;
 
+import com.dz.shop.Page.PageUtil;
 import com.dz.shop.entity.BoardFile;
 import com.dz.shop.entity.Popularity;
 import com.dz.shop.service.PopularityService;
@@ -15,6 +16,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -26,6 +28,20 @@ public class ClientProductAPI {
     @Autowired
     ProductService productService;
     private final String fileRepository = "/Users/ejy1024/Documents/upload";
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public Map<String, Object> search(
+            @RequestParam String search,
+            @RequestParam String pageIndex
+    ){
+        Map<String, Object> map = new HashMap<>();
+        PageUtil pageUtil = productService.pageUtil(search, pageIndex, "product");
+
+        map.put("list", pageUtil.getList());
+        map.put("pager", pageUtil.paper());
+
+        return map;
+    }
 
     @RequestMapping(value = "/popularity", method = RequestMethod.POST)
     public Map<String, Object> popularity(HttpSession session,
