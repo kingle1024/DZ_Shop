@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -33,13 +35,16 @@ public class ClientProductController {
     private final String fileRepository = "/Users/ejy1024/Documents/upload";
 
     @RequestMapping(value = "/view/{no}", method = RequestMethod.GET)
-    public String view(Model model, @PathVariable("no") String no, HttpSession session){
+    public String view(HttpServletRequest request, Model model, @PathVariable("no") String no, HttpSession session){
         logger.info("ClientProductController.view");
         ProductVO product = productService.getProduct(no);
         model.addAttribute("product", product);
-
-        PageUtil pageUtil = productService.pageUtil(no, "", "comment");
+        String pageIndex = request.getParameter("pageIndex");
+        PageUtil pageUtil = productService.pageUtil(no, pageIndex, "comment");
         model.addAttribute("cs", pageUtil.getList());
+        model.addAttribute("pager", pageUtil.paper());
+        model.addAttribute("sessionUserId", session.getAttribute(SessionAttribute.userid.toString()));
+
 
         List<BoardFile> files = productService.fileList(no);
         System.out.println("files = " + files);
@@ -51,12 +56,13 @@ public class ClientProductController {
         return "product/view";
     }
 
-    @RequestMapping(value = "/thumbnail.do", method = RequestMethod.GET)
+    @RequestMapping(value = "/mainThumbnail.do", method = RequestMethod.GET)
     public void thumbnail(
-            @RequestParam("no") String no, HttpServletResponse response) throws IOException {
+            @RequestParam("no") String no, @RequestParam("title") String title, HttpServletRequest request, HttpServletResponse response) throws IOException {
         ProductVO product = productService.getProduct(no);
         if(product != null){
-            response.setHeader("Cache-Control", "max-age=31536000");
+            response.setHeader("Cache-Control", "no-cache");
+            response.addHeader("Content-disposition", "attachment; fileName=" + product.getThumbnail());
 
             BufferedOutputStream out = new BufferedOutputStream(response.getOutputStream());
             BufferedInputStream in = new BufferedInputStream(Files.newInputStream(Paths.get(product.getThumbnail())));
