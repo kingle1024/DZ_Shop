@@ -79,7 +79,6 @@ public class AdminServiceImpl implements AdminService {
 
         if(byUserId == null) throw new RuntimeException();
         if(adminDAO.userStatus(map) < 0) throw new RuntimeException();
-        adminDAO.userStatus(map);
 
         return del_memberDAO.add(map);
     }
