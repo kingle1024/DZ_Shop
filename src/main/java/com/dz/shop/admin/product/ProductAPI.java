@@ -46,9 +46,8 @@ public class ProductAPI {
             Map<String, Object> map = CustomUtil.getStringObjectMap(multipartRequest);
 
             map.put("writer", session.getAttribute("sessionName"));
-            logger.info("api map -> " + map);
             String no = String.valueOf(productService.add(map));
-            productService.fileAdd(no, multipartRequest.getFileMap());
+            if(no != null) productService.fileAdd(no, multipartRequest.getFileMap());
         }catch (Exception e){
             e.printStackTrace();
         }
