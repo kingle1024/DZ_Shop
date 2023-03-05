@@ -51,6 +51,12 @@ public class ProductServiceImpl implements ProductService {
             case "product":{
                 list = adminProductDAO.list(param);
                 totalCount = adminProductDAO.listSize(param.getSearch());
+                List<ProductVO> l = (List<ProductVO>) list;
+                for (int i = 0; i < l.size(); i++) {
+                    l.get(i).setThumbnail(
+                            l.get(i).getThumbnail().substring(l.get(i).getThumbnail().length()-13, l.get(i).getThumbnail().length()-1)
+                    );
+                }
                 break;
             }
             case "comment":{
@@ -137,11 +143,10 @@ public class ProductServiceImpl implements ProductService {
                     throw new RuntimeException(e);
                 }
             }
-
-            for(BoardFile boardFile : boardFileList){
-                boardFileDAO.add(boardFile);
-            }
         });
+        for(BoardFile boardFile : boardFileList){
+            boardFileDAO.add(boardFile);
+        }
     }
 
     @Override
