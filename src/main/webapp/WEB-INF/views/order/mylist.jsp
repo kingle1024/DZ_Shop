@@ -41,7 +41,12 @@
                 <c:when test="${list.status == 'READY'}">
                     배송준비중
                 </c:when>
-
+                <c:when test="${list.status == 'SENDING'}">
+                    배송중
+                </c:when>
+                <c:when test="${list.status == 'FINISH'}">
+                    배송완료
+                </c:when>
 
                 <c:otherwise>
                     ${list.status}
