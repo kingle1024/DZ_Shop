@@ -55,7 +55,8 @@
                     </tr>
                     <tr>
                         <td>
-                        <select class="form-select" id="mobile_tel1">
+                        <div class="form-inline form-group" >
+                        <select class="" id="mobile_tel1">
                             <option value="">휴대폰 번호 선택</option>
                             <option value="010">010</option>
                             <option value="011" selected>011</option>
@@ -64,23 +65,27 @@
                         <input class="form-control" type="text" name="mobile_tel2" id="mobile_tel2" value="">
                         -
                         <input class="form-control" type="text" name="mobile_tel3" id="mobile_tel3" value="">
+                        </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
+                        <div class="form-inline form-group" >
                         <input class="form-control" type="text" name="email" id="email" value="" placeholder="이메일">
                         @
-                        <select class="form-select" id="emailDomain">
+                        <select class="" id="emailDomain">
                             <option value="">선택</option>
                             <option value="naver.com" selected>naver.com</option>
                             <option value="daum.net">daum.net</option>
+                            <option value="kakao.com">kakao.com</option>
                         </select>
+                        </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
                         <input class="form-control" name="zipcode" id="zip" type="text" class="" maxlength="6" title="우편번호" value="" readonly="readonly"/>
-                        <a href="javascript:execDaumPostcode();" class="btn">주소찾기</a>
+                        <a href="javascript:execDaumPostcode();" class="btn btn-primary">주소찾기</a>
                         <br>
                         <input class="form-control" name="addr1" id="addr1" type="text" value="" /><br>
                         <input class="form-control" name="addr2" id="addr2" type="text" value="" />
