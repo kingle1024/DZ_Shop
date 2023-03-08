@@ -44,6 +44,7 @@ public class MemberAPI {
 
         session.setAttribute(SessionAttribute.userid.toString(), member.getUserId());
         session.setAttribute(SessionAttribute.name.toString(), member.getName());
+        session.setAttribute(SessionAttribute.isLogin.toString(), true);
         if(member.isAdmin()) session.setAttribute(SessionAttribute.admin.toString(), true);
 
         map.put("status", true);
@@ -153,7 +154,6 @@ public class MemberAPI {
         System.out.println("map = " + map);
 
         MailVO mail = mailService.checkValue(map);
-        System.out.println("mail = " + mail);
         Map<String, Object> resultMap = new HashMap<>();
 
         if(mail != null){
