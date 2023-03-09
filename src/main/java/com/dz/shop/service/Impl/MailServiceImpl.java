@@ -41,7 +41,7 @@ public class MailServiceImpl implements MailService {
         body = body.replace("${DATETIME}", sdf.format(Calendar.getInstance().getTime()));
         body = body.replace("${TEMPNUMBER}", tempNumber);
 
-        sendSearchIdMail(memberVO.getEmail(), "[DZ] 회원가입 환영 메일", body);
+        sendMail(memberVO.getEmail(), "[DZ] 회원가입 환영 메일", body);
 
         return 1;
     }
@@ -63,7 +63,7 @@ public class MailServiceImpl implements MailService {
 
         body = body.replace("${USERID}", member.getUserId());
 
-        sendSearchIdMail(to, "[DZ] 아이디 찾기 메일", body);
+        sendMail(to, "[DZ] 아이디 찾기 메일", body);
 
         return 1;
     }
@@ -85,7 +85,7 @@ public class MailServiceImpl implements MailService {
         body = body.replace("${USERNAME}", "홍길동");
         body = body.replace("${DATETIME}", sdf.format(Calendar.getInstance().getTime()));
         body = body.replace("${TEMPNUMBER}", tempNumber);
-        sendSearchIdMail(to, "[DZ] 비밀번호 찾기 메일", body);
+        sendMail(to, "[DZ] 비밀번호 찾기 메일", body);
         MailVO mailVO = MailVO.builder()
                 .value(tempNumber)
                 .email((String) map.get("email"))
@@ -108,7 +108,7 @@ public class MailServiceImpl implements MailService {
         return str.toString();
     }
 
-    void sendSearchIdMail(String to, String subject, String body) {
+    void sendMail(String to, String subject, String body) {
         MimeMessage message = mailSender.createMimeMessage();
         try{
             MimeMessageHelper mh =
@@ -116,7 +116,7 @@ public class MailServiceImpl implements MailService {
             mh.setFrom("kingle1024@gmail.com", "마사모");
             mh.setTo(to);
             mh.setSubject(subject);
-            mh.setText(body);
+            mh.setText(body, true);
             mailSender.send(message);
         }catch (Exception e){
             e.printStackTrace();
