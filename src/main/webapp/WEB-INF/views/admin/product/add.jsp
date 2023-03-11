@@ -8,9 +8,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <form id="uploadForm" method="post" enctype="multipart/form-data">
-    상품명 : <input type="text" name="title" id="title" value="상품명 "><br/>
-    가격 : <input type="number" name="price" id="price" value="1000"><br/>
-    썸네일 : <input type="file" name="thumbnail" id="thumbnail">
+    <table class="table">
+        <tr>
+            <td>상품명</td>
+            <td><input class="form-control" type="text" name="title" id="title" value="상품명 "></td>
+        </tr>
+        <tr>
+            <td>가격</td>
+            <td><input class="form-control" type="number" name="price" id="price" value="1000"></td>
+        </tr>
+        <tr>
+            <td>썸네일</td>
+            <td>
+                <input type="file" class="form-control-file" name="thumbnail" id="thumbnail">
+            </td>
+        </tr>
+<%--        <tr>--%>
+<%--            <td>본문 이미지</td>--%>
+<%--        </tr>--%>
+    </table>
 
     <textarea name="editor" id="editor"></textarea>
     <table>
@@ -75,4 +91,50 @@
                 }
             });
     });
+</script>
+<script>
+    class UploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+
+        upload() {
+            return this.loader.file.then( file => new Promise(((resolve, reject) => {
+                this._initRequest();
+                this._initListeners( resolve, reject, file );
+                this._sendRequest( file );
+            })))
+        }
+
+        _initRequest() {
+            const xhr = this.xhr = new XMLHttpRequest();
+            xhr.open('POST', 'http://localhost:8000/api/image/upload', true);
+            xhr.responseType = 'json';
+        }
+
+        _initListeners(resolve, reject, file) {
+            const xhr = this.xhr;
+            const loader = this.loader;
+            const genericErrorText = '파일을 업로드 할 수 없습니다.'
+
+            xhr.addEventListener('error', () => {reject(genericErrorText)})
+            xhr.addEventListener('abort', () => reject())
+            xhr.addEventListener('load', () => {
+                const response = xhr.response
+                if(!response || response.error) {
+                    return reject( response && response.error ? response.error.message : genericErrorText );
+                }
+
+                resolve({
+                    default: response.url //업로드된 파일 주소
+                })
+            })
+        }
+
+        _sendRequest(file) {
+            const data = new FormData()
+            data.append('upload',file)
+            this.xhr.send(data)
+        }
+    }
 </script>
