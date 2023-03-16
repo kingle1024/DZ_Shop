@@ -5,6 +5,7 @@ public enum SessionAttribute {
     ,userid("sessionUserId")
     ,admin("sessionIsAdmin")
     ,chat("sessionChat")
+    ,isLogin("isLogin")
     ;
 
     private final String value;
