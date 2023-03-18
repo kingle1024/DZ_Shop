@@ -8,6 +8,7 @@ import com.dz.shop.entity.ProductVO;
 import com.dz.shop.service.PopularityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class PopularityServiceImpl implements PopularityService {
 
 
     @Override
+    @Transactional
     public Map<String, Object> add(Popularity popularityParam) {
         String bno = popularityParam.getBno();
         String clickedType = popularityParam.getType();
@@ -42,60 +44,73 @@ public class PopularityServiceImpl implements PopularityService {
 
         // 내가 좋아요, 싫어요 한 내역이 없으면
         if(popularity == null){
-            product = setProductPopularity(product, null, clickedType, like_count, dislike_count);
-            adminProductDAO.edit(product);
-
-            popularity = new Popularity();
-            popularity.setBno(bno);
-            popularity.setUserId(user);
-            popularity.setType(clickedType);
-            popularity.setRegister_date(LocalDateTime.now());
-
-            popularityDAO.insert(popularity);
+            addCount(bno, clickedType, user, product, like_count, dislike_count);
 
             resultMap.put("message", "성공");
             resultMap.put("status", "add");
         } else {
             // 동일한 데이터가 존재하면 제거
             if(clickedType.equals(popularity.getType())){
-                popularity.setDelete(true);
-                popularityDAO.update(popularity);
-
-                if(clickedType.equals(PopularityEnum.like.name())){
-                    like_count -= 1 ;
-                }else{
-                    dislike_count -= 1;
-                }
-                product.setLike_count(like_count);
-                product.setDislike_count(dislike_count);
-                adminProductDAO.edit(product);
+                cancelCount(clickedType, popularity, product, like_count, dislike_count);
 
                 resultMap.put("message", "취소되었습니다.");
                 resultMap.put("status", "cancel");
             } else { // 좋아요에서 싫어요를 선택한 경우
-                popularity.setDelete(true);
-                popularityDAO.update(popularity);
-                popularity.setType(clickedType);
-                popularity.setDelete(false);
-                popularity.setRegister_date(LocalDateTime.now());
-                popularityDAO.insert(popularity);
-
-                if(clickedType.equals(PopularityEnum.like.name())){
-                    like_count += 1;
-                    dislike_count -=1;
-                }else if(clickedType.equals(PopularityEnum.dislike.name())){
-                    like_count -=1;
-                    dislike_count += 1;
-                }
-                product.setLike_count(like_count);
-                product.setDislike_count(dislike_count);
-                adminProductDAO.edit(product);
+                changeCount(clickedType, popularity, product, like_count, dislike_count);
 
                 resultMap.put("message", "변경되었습니다.");
                 resultMap.put("status", "change");
             }
         }
         return resultMap;
+    }
+
+    private void addCount(String bno, String clickedType, String user, ProductVO product, int like_count, int dislike_count) {
+        Popularity popularity;
+        product = setProductPopularity(product, null, clickedType, like_count, dislike_count);
+        adminProductDAO.edit(product);
+
+        popularity = new Popularity();
+        popularity.setBno(bno);
+        popularity.setUserId(user);
+        popularity.setType(clickedType);
+        popularity.setRegister_date(LocalDateTime.now());
+
+        popularityDAO.insert(popularity);
+    }
+
+    private void changeCount(String clickedType, Popularity popularity, ProductVO product, int like_count, int dislike_count) {
+        popularity.setDelete(true);
+        if(popularityDAO.update(popularity) < 0) throw new RuntimeException();
+        popularity.setType(clickedType);
+        popularity.setDelete(false);
+        popularity.setRegister_date(LocalDateTime.now());
+        if(popularityDAO.insert(popularity) < 0) throw new RuntimeException();
+
+        if(clickedType.equals(PopularityEnum.like.name())){
+            like_count += 1;
+            dislike_count -=1;
+        }else if(clickedType.equals(PopularityEnum.dislike.name())){
+            like_count -=1;
+            dislike_count += 1;
+        }
+        product.setLike_count(like_count);
+        product.setDislike_count(dislike_count);
+        if(adminProductDAO.edit(product) < 0) throw new RuntimeException();
+    }
+
+    private void cancelCount(String clickedType, Popularity popularity, ProductVO product, int like_count, int dislike_count) {
+        popularity.setDelete(true);
+        if(popularityDAO.update(popularity) < 0) throw new RuntimeException();
+
+        if(clickedType.equals(PopularityEnum.like.name())){
+            like_count -= 1 ;
+        }else{
+            dislike_count -= 1;
+        }
+        product.setLike_count(like_count);
+        product.setDislike_count(dislike_count);
+        if(adminProductDAO.edit(product) < 0) throw new RuntimeException();
     }
 
     private ProductVO setProductPopularity(ProductVO product, Popularity popularity, String clickedType, int like_count, int dislike_count) {
