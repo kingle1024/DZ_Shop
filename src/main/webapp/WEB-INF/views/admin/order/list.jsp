@@ -43,7 +43,7 @@
             <td>${list.title}</td>
             <td>${list.cnt}</td>
             <td>${list.price * list.cnt}</td>
-            <td>
+            <td><span class="deliveryStatus">
                 <c:choose>
                     <c:when test="${list.status eq 'READY'}">
                         배송 준비
@@ -55,6 +55,7 @@
                         배송 완료
                     </c:when>
                 </c:choose>
+                </span>
             </td>
             <td>
                 <select data-id="${list.no}" onchange="changeDelivery(this, '${list.status}')">
@@ -69,7 +70,7 @@
                     </c:choose>
                 </c:forEach>
                 </select>
-                <button data-id="${list.no}" id="change" class="btn btn-primary btn-sm">변경</button>
+<%--                <button data-id="${list.no}" id="change" class="btn btn-primary btn-sm">변경</button>--%>
             </td>
             <td>${list.register_date}</td>
             <td>
@@ -172,7 +173,16 @@
                 html += "<td>"+detail.title+"</td>";
                 html += "<td>"+detail.price+"</td>";
                 html += "<td>"+detail.cnt+"</td>";
-                html += "<td>"+detail.status+"</td>";
+
+                if(detail.status == 'READY'){
+                    html += "<td>배송준비</td>";
+                }else if(detail.status == 'SENDING'){
+                    html += "<td>배송중</td>";
+                }else if(detail.status == 'FINISH'){
+                    html += "<td>배송완료</td>";
+                }
+
+
                 html += "</tr>";
                 document.getElementById("pb_tbody").innerHTML = html;
 
@@ -190,10 +200,10 @@
 </script>
 <script>
     function changeDelivery(e){
+        alert("배송 상태가 변경되었습니다.");
         console.log(e.value);
-
         console.log(e);
-        console.log();
+
         let selectedIndex = e.selectedIndex;
         console.log(e.options[selectedIndex].value);
 
@@ -203,7 +213,7 @@
         }
 
         fetch('${pageContext.request.contextPath}/api/admin/order/status', {
-            method : 'POST',
+            method : 'PUT',
             headers : {
                 'Content-Type' : 'application/json; charset=utf-8'
             },
@@ -211,6 +221,15 @@
         })
             .then(response => response.json())
             .then(jsonResult => {
+
+                let deliveryStatus = e.parentNode.parentNode.querySelector(".deliveryStatus");
+                if(jsonResult.status === 'READY'){
+                    deliveryStatus.innerHTML = "배송준비";
+                }else if(jsonResult.status === 'SENDING'){
+                    deliveryStatus.innerHTML = "배송중";
+                }else if(jsonResult.status === 'FINISH'){
+                    deliveryStatus.innerHTML = "배송완료";
+                }
                 console.log(jsonResult);
             });
     }
