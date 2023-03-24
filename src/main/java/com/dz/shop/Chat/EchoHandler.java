@@ -49,10 +49,13 @@ public class EchoHandler extends TextWebSocketHandler implements InitializingBea
                 roomInUsers = new HashSet<>();
                 roomInUsers.add(sessionId);
                 roomInUsers.add("admin");
+                // 방이 없으면 생성
                 roomAndSessionNames.put(sessionId, roomInUsers);
             }
+            // 채팅 소켓 갱신
             userAndWebSocket.put(sessionId, session);
         }else{
+            // 관리자면 채팅 소켓만 갱신
             userAndWebSocket.put("admin", session);
         }
     }
