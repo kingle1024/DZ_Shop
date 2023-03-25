@@ -5,12 +5,14 @@
 		xmlns:beans="http://www.springframework.org/schema/beans"
 		xmlns:context="http://www.springframework.org/schema/context"
 		xmlns:websocket="http://www.springframework.org/schema/websocket"
+		xmlns:aop="http://www.springframework.org/schema/aop"
 		xsi:schemaLocation="http://www.springframework.org/schema/mvc
 		https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans
 		https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context
-		https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
+		https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd
+ 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -29,9 +31,7 @@
 	<beans:bean id="LoginInterceptor" class="com.dz.shop.Interceptor.LoginInterceptor" />
 	<interceptors>
 		<interceptor>
-<!--			<mapping path="/DZ_shop_war_exploded/admin/*" />-->
 			<mapping path="/admin/**" />
-<!--			<exclude-mapping path="/*" />-->
 			<beans:ref bean="LoginInterceptor" />
 		</interceptor>
 	</interceptors>
@@ -53,5 +53,8 @@
 		</websocket:handshake-interceptors>
 		<websocket:sockjs />
 	</websocket:handlers>
+
+	<aop:aspectj-autoproxy/>
+
 
 </beans:beans>
