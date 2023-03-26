@@ -88,8 +88,6 @@
                 $("#pager").empty();
                 document.querySelector("#pager").innerHTML = html;
                 let end = new Date();
-                console.log("실행기간 : ");
-                console.log(end-start);
             });
     }
 </script>
